@@ -27,6 +27,9 @@ const izunaScreen =
 const medalsScreen =
     document.getElementById("medalsScreen");
 
+const keiIceScreen =
+    document.getElementById("keiIceScreen");
+
 
 const logo =
     document.getElementById("logo");
@@ -41,6 +44,9 @@ const leaderboardButton =
 const patButton =
     document.getElementById("patButton");
 
+const keiIceButton =
+    document.getElementById("keiIceButton");
+
 const medalsButton =
     document.getElementById("medalsButton");
 
@@ -50,6 +56,9 @@ const leaderboardBackButton =
 
 const izunaBackButton =
     document.getElementById("izunaBackButton");
+
+const keiIceBackButton =
+    document.getElementById("keiIceBackButton");
 
 const medalsBackButton =
     document.getElementById("medalsBackButton");
@@ -77,6 +86,9 @@ const leaderboardContent =
 
 const medalsContent =
     document.getElementById("medalsContent");
+
+const keiIceFrame =
+    document.getElementById("keiIceFrame");
 
 
 const izunaArea =
@@ -888,6 +900,10 @@ function showScreen(
         "active"
     );
 
+    keiIceScreen.classList.remove(
+        "active"
+    );
+
     medalsScreen.classList.remove(
         "active"
     );
@@ -1097,6 +1113,31 @@ function openIzuna() {
 
 
 /* =====================================================
+   GO TO GIVE KEI CHAN ICE
+
+   Lazy-load: ใส่ src ให้ iframe ตอนกดเปิดครั้งแรก
+   เท่านั้น เพื่อไม่ให้คนที่ไม่ได้กดต้องโหลดโมเดล
+   Live2D ที่มีขนาดใหญ่ไปโดยเปล่าประโยชน์
+===================================================== */
+
+function openKeiIce() {
+
+    if (
+        !keiIceFrame.src
+    ) {
+
+        keiIceFrame.src =
+            "./kei-ice/index.html";
+    }
+
+
+    showScreen(
+        keiIceScreen
+    );
+}
+
+
+/* =====================================================
    GO TO CLUB MEMBER LIST
 ===================================================== */
 
@@ -1122,6 +1163,11 @@ function goBackToMenu() {
 
 
     izunaScreen.classList.remove(
+        "active"
+    );
+
+
+    keiIceScreen.classList.remove(
         "active"
     );
 
@@ -1198,6 +1244,12 @@ patButton.addEventListener(
 );
 
 
+keiIceButton.addEventListener(
+    "click",
+    openKeiIce
+);
+
+
 medalsButton.addEventListener(
     "click",
     openMedals
@@ -1211,6 +1263,12 @@ leaderboardBackButton.addEventListener(
 
 
 izunaBackButton.addEventListener(
+    "click",
+    goBackToMenu
+);
+
+
+keiIceBackButton.addEventListener(
     "click",
     goBackToMenu
 );
