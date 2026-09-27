@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        property="og:type"
+        content="website"
+    >
+
+    <meta
+        property="og:title"
+        content="Hyakkiyako Club"
+    >
+
+    <meta
+        property="og:description"
+        content="Hyakkiyako Club 5th Club Leaderboard"
+    >
+
+    <meta
+        property="og:url"
+        content="https://carrotto-0w0.github.io/BA-Hyakkiyako-club-Leaderboard/"
+    >
+
+    <meta
+        property="og:image"
+        content="https://carrotto-0w0.github.io/BA-Hyakkiyako-club-Leaderboard/Hyakkiyako_Intro.png"
+    >
+
+    <meta
+        property="og:image:width"
+        content="1200"
+    >
+
+    <meta
+        property="og:image:height"
+        content="630"
+    >
+
+    <meta
+        name="twitter:card"
+        content="summary_large_image"
+    >
+
+    <meta
+        name="twitter:title"
+        content="Hyakkiyako Club"
+    >
+
+    <meta
+        name="twitter:description"
+        content="Hyakkiyako Club 5th Club Leaderboard"
+    >
+
+    <meta
+        name="twitter:image"
+        content="https://carrotto-0w0.github.io/BA-Hyakkiyako-club-Leaderboard/Hyakkiyako_Intro.png"
+    >
+
+    <title>
+        Hyakkiyako Club
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="./style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     MENU SCREEN
+===================================================== -->
+
+<section
+    id="menuScreen"
+    class="screen menu-screen"
+>
+
+
+    <!-- =====================================================
+         PARTICLE CANVAS
+         
+         สำคัญ:
+         Canvas ถูกย้ายเข้ามาอยู่ใน Menu Screen
+         เพื่อให้ Sakura อยู่เหนือ Background
+         แต่ยังอยู่ใต้ Logo และปุ่ม
+    ===================================================== -->
+
+    <canvas
+        id="particleCanvas"
+    ></canvas>
+
+
+    <!-- =====================================================
+         BACKGROUND
+    ===================================================== -->
+
+    <div
+        id="menuBackground"
+        class="menu-background"
+    >
+
+        <div
+            id="dayBackground"
+            class="background-layer background-day"
+        ></div>
+
+        <div
+            id="nightBackground"
+            class="background-layer background-night"
+        ></div>
+
+        <div
+            class="background-overlay"
+        ></div>
+
+    </div>
+
+
+    <!-- =====================================================
+         LOGO
+    ===================================================== -->
+
+    <div
+        id="logoContainer"
+        class="logo-container"
+    >
+
+        <img
+            id="logo"
+            src="./hyakkiyako.png"
+            alt="Hyakkiyako"
+            draggable="false"
+        >
+
+    </div>
+
+
+    <!-- =====================================================
+         MENU BUTTONS
+    ===================================================== -->
+
+    <div
+        id="menuButtons"
+        class="menu-buttons"
+    >
+
+        <button
+            id="leaderboardButton"
+            class="menu-button"
+            type="button"
+        >
+
+            <span class="button-shine"></span>
+
+            <span class="button-icon">
+                🏆
+            </span>
+
+            <span class="button-label">
+                CLUB LEADERBOARD
+            </span>
+
+            <div
+                class="button-line"
+            ></div>
+
+        </button>
+
+
+        <button
+            id="patButton"
+            class="menu-button"
+            type="button"
+        >
+
+            <span class="button-shine"></span>
+
+            <span class="button-icon">
+                🦊
+            </span>
+
+            <span class="button-label">
+                PAT IZUNA
+            </span>
+
+            <div
+                class="button-line"
+            ></div>
+
+        </button>
+
+
+        <button
+            id="medalsButton"
+            class="menu-button"
+            type="button"
+        >
+
+            <span class="button-shine"></span>
+
+            <span class="button-icon">
+                🎴
+            </span>
+
+            <span class="button-label">
+                CLUB MEMBERS
+            </span>
+
+            <div
+                class="button-line"
+            ></div>
+
+        </button>
+
+    </div>
+
+
+    <!-- =====================================================
+         DAY / NIGHT
+    ===================================================== -->
+
+    <button
+        id="modeToggle"
+        class="mode-toggle"
+        type="button"
+    >
+
+        <span
+            id="modeIcon"
+        >
+            ☀
+        </span>
+
+        <span
+            id="modeText"
+        >
+            DAY
+        </span>
+
+    </button>
+
+
+</section>
+
+
+<!-- =====================================================
+     LEADERBOARD SCREEN
+===================================================== -->
+
+<section
+    id="leaderboardScreen"
+    class="screen leaderboard-screen"
+>
+
+
+    <!-- =====================================================
+         LEADERBOARD BACKGROUND (DAY / NIGHT)
+    ===================================================== -->
+
+    <div
+        id="leaderboardBackground"
+        class="leaderboard-background"
+    >
+
+        <div
+            class="background-layer leaderboard-bg-day"
+        ></div>
+
+        <div
+            class="background-layer leaderboard-bg-night"
+        ></div>
+
+        <div
+            class="leaderboard-background-overlay"
+        ></div>
+
+    </div>
+
+
+    <div
+        class="leaderboard-container"
+    >
+
+
+        <!-- HEADER -->
+
+        <div
+            class="leaderboard-header"
+        >
+
+            <div
+                class="leaderboard-title"
+            >
+                HYAKKIYAKO CLUB
+            </div>
+
+            <div
+                class="leaderboard-subtitle"
+            >
+                5TH CLUB LEADERBOARD
+            </div>
+
+        </div>
+
+
+        <!-- BOSS SELECTOR -->
+
+        <div
+            class="boss-selector"
+        >
+
+            <button
+                id="ta85Button"
+                class="boss-button"
+                type="button"
+            >
+
+                <span
+                    class="boss-code"
+                >
+                    TA85
+                </span>
+
+                <span
+                    class="boss-name"
+                >
+                    KAITEN
+                </span>
+
+            </button>
+
+
+            <button
+                id="ga33Button"
+                class="boss-button active"
+                type="button"
+            >
+
+                <span
+                    class="boss-code"
+                >
+                    GA33
+                </span>
+
+                <span
+                    class="boss-name"
+                >
+                    KUROKAGE
+                </span>
+
+            </button>
+
+        </div>
+
+
+        <!-- LEADERBOARD -->
+
+        <div
+            id="leaderboardContent"
+            class="leaderboard-content"
+        ></div>
+
+
+    </div>
+
+
+    <button
+        id="leaderboardBackButton"
+        class="back-button"
+        type="button"
+    >
+        BACK
+    </button>
+
+
+</section>
+
+
+<!-- =====================================================
+     CLUB MEMBER LIST SCREEN
+
+     Leader / Manager / Member ทั้งหมด
+     แก้ไขรูป/ชื่อ/Info ได้ที่ members-data.js
+===================================================== -->
+
+<section
+    id="medalsScreen"
+    class="screen leaderboard-screen medals-screen"
+>
+
+
+    <div
+        id="medalsBackground"
+        class="leaderboard-background"
+    >
+
+        <div
+            class="background-layer leaderboard-bg-day"
+        ></div>
+
+        <div
+            class="background-layer leaderboard-bg-night"
+        ></div>
+
+        <div
+            class="leaderboard-background-overlay"
+        ></div>
+
+    </div>
+
+
+    <div
+        class="club-panel"
+    >
+
+
+        <div
+            class="club-header"
+        >
+
+            <div
+                class="club-title"
+            >
+                百鬼夜行 CLUB MEMBERS
+            </div>
+
+            <div
+                class="club-subtitle"
+            >
+                LEADER — MANAGER — MEMBER
+            </div>
+
+        </div>
+
+
+        <div
+            id="medalsContent"
+            class="club-content"
+        ></div>
+
+
+    </div>
+
+
+    <button
+        id="medalsBackButton"
+        class="back-button"
+        type="button"
+    >
+        BACK
+    </button>
+
+
+</section>
+
+
+<!-- =====================================================
+     IZUNA SCREEN
+===================================================== -->
+
+<section
+    id="izunaScreen"
+    class="screen izuna-screen"
+>
+
+
+    <div
+        class="izuna-container"
+    >
+
+        <div
+            class="izuna-title"
+        >
+            PAT IZUNA
+        </div>
+
+
+        <div
+            class="izuna-subtitle"
+        >
+            RUB IZUNA'S HEAD
+        </div>
+
+
+        <div
+            class="pet-score"
+        >
+
+            You have pet Izuna for
+
+            <span
+                id="petSeconds"
+            >
+                0.0
+            </span>
+
+            second
+
+        </div>
+
+
+        <div
+            id="izunaArea"
+            class="izuna-area"
+        >
+
+            <img
+                id="izunaStatic"
+                class="izuna-image"
+                src="./izuna-static.png"
+                alt="Izuna"
+                draggable="false"
+            >
+
+            <img
+                id="izunaPet"
+                class="izuna-image izuna-pet"
+                src="./izuna-pet.png"
+                alt="Izuna"
+                draggable="false"
+            >
+
+            <div
+                class="pet-glow"
+            ></div>
+
+        </div>
+
+
+        <div
+            id="petInstruction"
+            class="pet-instruction"
+        >
+            RUB IZUNA'S HEAD
+        </div>
+
+    </div>
+
+
+    <button
+        id="izunaBackButton"
+        class="back-button"
+        type="button"
+    >
+        BACK
+    </button>
+
+
+</section>
+
+
+<script
+    src="./members-data.js"
+></script>
+
+<script
+    src="./script.js"
+></script>
+
+
+</body>
+</html>
