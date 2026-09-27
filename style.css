@@ -1495,49 +1495,84 @@ body.night-mode
 .back-button {
     position: absolute;
 
-    left: 50%;
+    top:
+        calc(18px + env(safe-area-inset-top, 0px));
 
-    bottom: 22px;
+    left:
+        calc(18px + env(safe-area-inset-left, 0px));
 
-    transform:
-        translateX(-50%);
+    z-index: 30;
 
-    width: 135px;
-    height: 40px;
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    padding: 0 14px 0 12px;
+
+    height: 34px;
 
     border:
         1px solid
-        rgba(255,150,215,0.48);
+        rgba(255,150,215,0.4);
+
+    border-radius: 999px;
 
     background:
-        rgba(30,8,25,0.78);
+        rgba(20,7,17,0.55);
+
+    backdrop-filter:
+        blur(6px);
+
+    -webkit-backdrop-filter:
+        blur(6px);
 
     color:
         #ffeaf5;
 
-    font-size: 10px;
+    font-size: 9px;
 
-    letter-spacing: 4px;
+    letter-spacing: 3px;
 
     cursor: pointer;
 
+    opacity: 0.72;
+
     transition:
-        border-color 0.25s ease,
-        background 0.25s ease,
-        box-shadow 0.25s ease;
+        opacity 0.2s ease,
+        border-color 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.back-icon {
+    font-size: 14px;
+
+    line-height: 1;
+
+    transform:
+        translateY(-1px);
 }
 
 
 .back-button:hover {
+    opacity: 1;
+
     border-color:
         rgba(255,190,230,0.9);
 
     background:
-        rgba(90,20,70,0.35);
+        rgba(90,20,70,0.45);
 
     box-shadow:
         0 0 14px
         rgba(255,100,190,0.25);
+
+    transform:
+        translateX(-2px);
 }
 
 
