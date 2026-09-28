@@ -2081,6 +2081,55 @@ const PET_IDLE_DELAY =
 
 
 /* =====================================================
+   PET SOUND EFFECT
+
+   เล่นเสียงเมื่อผู้เล่น "หยุดลูบหัว" Izuna
+   - PET_SOUND_MIN_DURATION = ต้องลูบอย่างน้อยกี่ ms
+     ถึงจะมีเสียง (กันการแตะเบาๆ โดยไม่ตั้งใจ)
+   - PET_SOUND_VOLUME = ความดัง 0.0 - 1.0
+===================================================== */
+
+const PET_SOUND_MIN_DURATION =
+    300;
+
+const PET_SOUND_VOLUME =
+    0.8;
+
+
+const petSound =
+    new Audio(
+        "./sounds/izuna-nin-nin.mp3"
+    );
+
+petSound.preload =
+    "auto";
+
+petSound.volume =
+    PET_SOUND_VOLUME;
+
+
+function playPetSound() {
+
+    petSound.currentTime =
+        0;
+
+
+    const playPromise =
+        petSound.play();
+
+
+    if (
+        playPromise !== undefined
+    ) {
+
+        playPromise.catch(
+            () => {}
+        );
+    }
+}
+
+
+/* =====================================================
    CHECK HEAD
 ===================================================== */
 
@@ -2233,9 +2282,22 @@ function stopPetting() {
         petStartTime !== null
     ) {
 
-        totalPetTime +=
+        const sessionDuration =
             performance.now() -
             petStartTime;
+
+
+        totalPetTime +=
+            sessionDuration;
+
+
+        if (
+            sessionDuration >=
+            PET_SOUND_MIN_DURATION
+        ) {
+
+            playPetSound();
+        }
     }
 
 
