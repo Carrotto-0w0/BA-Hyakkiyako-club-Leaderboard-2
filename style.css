@@ -978,64 +978,6 @@ body.night-mode
 
 
 /* =====================================================
-   TOP 5 — SHIMMER SWEEP (ambient, idle)
-
-   แถบแสงวิ่งผ่าน Top 5 เป็นระยะ ให้ดูมีชีวิต
-===================================================== */
-
-.hero-rankings--five {
-    position: relative;
-}
-
-
-.hero-rankings--five::after {
-    content: "";
-
-    position: absolute;
-
-    top: 0;
-
-    left: -60%;
-
-    width: 45%;
-    height: 100%;
-
-    pointer-events: none;
-
-    z-index: 3;
-
-    background:
-        linear-gradient(
-            100deg,
-            transparent,
-            rgba(255,220,240,0.16) 45%,
-            rgba(255,220,240,0.28) 50%,
-            rgba(255,220,240,0.16) 55%,
-            transparent
-        );
-
-    animation:
-        heroShimmerSweep 5.5s
-        ease-in-out infinite;
-
-    animation-delay: 1.2s;
-}
-
-
-@keyframes heroShimmerSweep {
-
-    0% {
-        left: -60%;
-    }
-
-    35%,
-    100% {
-        left: 130%;
-    }
-}
-
-
-/* =====================================================
    LEADERBOARD — ENTRANCE REVEAL
 
    Top 5 เปิดจากอันดับท้ายก่อน ไล่ขึ้นไปอันดับ 1
