@@ -1493,6 +1493,10 @@ body.night-mode
 
 
 .rank-row {
+    position: relative;
+
+    overflow: hidden;
+
     display: grid;
 
     grid-template-columns:
@@ -1505,7 +1509,7 @@ body.night-mode
     min-height: 47px;
 
     padding:
-        0 14px;
+        0 14px 0 17px;
 
     border:
         1px solid
@@ -1516,7 +1520,35 @@ body.night-mode
 
     transition:
         background 0.2s ease,
-        border-color 0.2s ease;
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.rank-row::before {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    top: 0;
+    bottom: 0;
+
+    width: 3px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #ffd98a,
+            #ff8fd0,
+            #c79bff
+        );
+
+    transform:
+        scaleY(0);
+
+    transition:
+        transform 0.25s ease;
 }
 
 
@@ -1526,6 +1558,15 @@ body.night-mode
 
     border-color:
         rgba(255,150,215,0.25);
+
+    transform:
+        translateX(3px);
+}
+
+
+.rank-row:hover::before {
+    transform:
+        scaleY(1);
 }
 
 
