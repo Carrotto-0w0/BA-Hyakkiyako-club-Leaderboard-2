@@ -1074,10 +1074,24 @@ function openLeaderboard() {
 
     /*
         เปิด Leaderboard
+        (re-render ใหม่ทุกครั้ง เพื่อให้ Reveal
+        Animation เล่นใหม่ทุกครั้งที่เปิดหน้านี้)
     */
 
     setTimeout(
         () => {
+
+            if (
+                ga33Button.classList.contains("active")
+            ) {
+
+                renderKurokage();
+
+            } else {
+
+                renderTA85();
+            }
+
 
             showScreen(
                 leaderboardScreen
@@ -1634,7 +1648,9 @@ function rankNameHTML(
 ===================================================== */
 
 function createHeroCard(
-    player
+    player,
+    index,
+    total
 ) {
 
     const isNA =
@@ -1661,9 +1677,20 @@ function createHeroCard(
             : "";
 
 
+    /*
+        เปิดจากอันดับท้ายก่อน ไล่ขึ้นไปอันดับ 1
+        (index 0 = อันดับ 1 ต้องดีเลย์มากสุด)
+    */
+    const revealDelay =
+        (total - 1 - index) * 90;
+
+
     return `
 
-        <div class="hero-card ${rankClass}">
+        <div
+            class="hero-card ${rankClass} revealing"
+            style="--reveal-delay: ${revealDelay}ms"
+        >
 
             ${crown}
 
@@ -1677,8 +1704,11 @@ function createHeroCard(
 
             <div
                 class="hero-score ${isNA ? "hero-na" : ""}"
+                ${isNA
+                    ? ""
+                    : `data-count-target="${player.score}"`}
             >
-                ${escapeHTML(player.score)}
+                ${isNA ? escapeHTML(player.score) : "0"}
             </div>
 
         </div>
@@ -1692,12 +1722,20 @@ function createHeroCard(
 ===================================================== */
 
 function createRankRow(
-    player
+    player,
+    index
 ) {
+
+    const revealDelay =
+        Math.min(index, 14) * 35;
+
 
     return `
 
-        <div class="rank-row">
+        <div
+            class="rank-row revealing"
+            style="--reveal-delay: ${revealDelay}ms"
+        >
 
             <div class="rank-number">
                 #${player.rank}
@@ -1742,7 +1780,12 @@ function renderKurokage() {
 
             ${topFive
                 .map(
-                    createHeroCard
+                    (player, index) =>
+                        createHeroCard(
+                            player,
+                            index,
+                            topFive.length
+                        )
                 )
                 .join("")}
 
@@ -1753,13 +1796,156 @@ function renderKurokage() {
 
             ${remaining
                 .map(
-                    createRankRow
+                    (player, index) =>
+                        createRankRow(
+                            player,
+                            index
+                        )
                 )
                 .join("")}
 
         </div>
 
     `;
+
+
+    setupLeaderboardRevealCleanup();
+
+    animateScoreCounts();
+}
+
+
+/* =====================================================
+   REVEAL CLEANUP
+
+   ลบคลาส .revealing ออกหลัง animation จบ เพื่อคืนค่า
+   transform/animation ให้การ์ด rank 1-3 กลับไปใช้
+   heroGlowPulse + hover ตามปกติ (ผูก listener ครั้งเดียว)
+===================================================== */
+
+let revealCleanupBound =
+    false;
+
+function setupLeaderboardRevealCleanup() {
+
+    if (
+        revealCleanupBound
+    ) {
+
+        return;
+    }
+
+
+    revealCleanupBound =
+        true;
+
+
+    leaderboardContent.addEventListener(
+        "animationend",
+        (event) => {
+
+            const target =
+                event.target;
+
+            if (
+                target.classList &&
+                target.classList.contains("revealing")
+            ) {
+
+                target.classList.remove(
+                    "revealing"
+                );
+            }
+        }
+    );
+}
+
+
+/* =====================================================
+   SCORE COUNT-UP
+
+   ให้ตัวเลขคะแนนใน Top 5 นับขึ้นจาก 0 ถึงคะแนนจริง
+===================================================== */
+
+function animateScoreCounts() {
+
+    const scoreElements =
+        leaderboardContent.querySelectorAll(
+            ".hero-score[data-count-target]"
+        );
+
+
+    scoreElements.forEach(
+        (el) => {
+
+            const target =
+                parseInt(
+                    el.dataset.countTarget,
+                    10
+                );
+
+
+            if (
+                !Number.isFinite(target)
+            ) {
+
+                return;
+            }
+
+
+            const duration =
+                900;
+
+            const startTime =
+                performance.now();
+
+
+            function tick(
+                now
+            ) {
+
+                const elapsed =
+                    now - startTime;
+
+                const progress =
+                    Math.min(
+                        elapsed / duration,
+                        1
+                    );
+
+                const eased =
+                    1 - Math.pow(
+                        1 - progress,
+                        3
+                    );
+
+                el.textContent =
+                    Math.round(
+                        target * eased
+                    ).toLocaleString();
+
+
+                if (
+                    progress < 1
+                ) {
+
+                    requestAnimationFrame(
+                        tick
+                    );
+
+                } else {
+
+                    el.textContent =
+                        target.toLocaleString();
+                }
+            }
+
+
+            requestAnimationFrame(
+                tick
+            );
+        }
+    );
 }
 
 
@@ -2001,15 +2187,48 @@ function activateBoss(
 }
 
 
+/* =====================================================
+   BOSS TAB SWITCH (with crossfade)
+===================================================== */
+
+function switchBossTab(
+    button,
+    renderFn
+) {
+
+    activateBoss(
+        button
+    );
+
+
+    leaderboardContent.classList.add(
+        "is-switching"
+    );
+
+
+    setTimeout(
+        () => {
+
+            renderFn();
+
+            leaderboardContent.classList.remove(
+                "is-switching"
+            );
+
+        },
+        160
+    );
+}
+
+
 ta85Button.addEventListener(
     "click",
     () => {
 
-        activateBoss(
-            ta85Button
+        switchBossTab(
+            ta85Button,
+            renderTA85
         );
-
-        renderTA85();
 
     }
 );
@@ -2019,11 +2238,10 @@ ga33Button.addEventListener(
     "click",
     () => {
 
-        activateBoss(
-            ga33Button
+        switchBossTab(
+            ga33Button,
+            renderKurokage
         );
-
-        renderKurokage();
 
     }
 );
