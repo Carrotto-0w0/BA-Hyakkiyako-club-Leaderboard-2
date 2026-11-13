@@ -74,18 +74,15 @@ const modeText =
     document.getElementById("modeText");
 
 
-const ta85Button =
-    document.getElementById("ta85Button");
-
-const ga33Button =
-    document.getElementById("ga33Button");
-
-const ta86Button =
-    document.getElementById("ta86Button");
-
 
 const leaderboardContent =
     document.getElementById("leaderboardContent");
+
+const leaderboardPanel =
+    leaderboardScreen.querySelector(".leaderboard-container");
+
+const bossBloom =
+    document.getElementById("bossBloom");
 
 const medalsContent =
     document.getElementById("medalsContent");
@@ -1084,22 +1081,11 @@ function openLeaderboard() {
     setTimeout(
         () => {
 
-            if (
-                ga33Button.classList.contains("active")
-            ) {
+            /*
+                เลือกบอสก่อนเสมอ (หน้าการ์ดบอส)
+            */
 
-                renderKurokage();
-
-            } else if (
-                ta86Button.classList.contains("active")
-            ) {
-
-                renderTA86();
-
-            } else {
-
-                renderTA85();
-            }
+            renderBossSelect();
 
 
             showScreen(
@@ -1281,7 +1267,7 @@ medalsButton.addEventListener(
 
 leaderboardBackButton.addEventListener(
     "click",
-    goBackToMenu
+    handleLeaderboardBack
 );
 
 
@@ -1301,558 +1287,6 @@ medalsBackButton.addEventListener(
     "click",
     goBackToMenu
 );
-
-
-/* =====================================================
-   LEADERBOARD DATA
-===================================================== */
-
-const kuroKageData = [
-
-    {
-        rank: 1,
-        name: "Yayus",
-        score: "21"
-    },
-
-    {
-        rank: 2,
-        name: "Polygon363",
-        score: "363"
-    },
-
-    {
-        rank: 3,
-        name: "「SH」Messi",
-        score: "427"
-    },
-
-    {
-        rank: 4,
-        name: "「SH」DedeMiku",
-        score: "486"
-    },
-
-    {
-        rank: 5,
-        name: "「SH」雨息",
-        score: "545"
-    },
-
-    {
-        rank: 6,
-        name: "「SH」Yura",
-        score: "610"
-    },
-
-    {
-        rank: 7,
-        name: "「SH」Carrotic",
-        score: "798"
-    },
-
-    {
-        rank: 8,
-        name: "「SH」Velloz",
-        score: "888"
-    },
-
-    {
-        rank: 9,
-        name: "「SH」Keen",
-        score: "994"
-    },
-
-    {
-        rank: 10,
-        name: "Derain",
-        score: "1029"
-    },
-
-    {
-        rank: 11,
-        name: "แควมวย (Ebimiso)",
-        score: "1058"
-    },
-
-    {
-        rank: 12,
-        name: "ⓋFOXSNOW✿࿐",
-        score: "1317"
-    },
-
-    {
-        rank: 13,
-        name: "Kargvee",
-        score: "1504"
-    },
-
-    {
-        rank: 14,
-        name: "Relax",
-        score: "1926"
-    },
-
-    {
-        rank: 15,
-        name: "「SH」nero",
-        score: "1993"
-    },
-
-    {
-        rank: 16,
-        name: "「SH」Nahima",
-        score: "2169"
-    },
-
-    {
-        rank: 17,
-        name: "Geeao",
-        score: "2652"
-    },
-
-    {
-        rank: 18,
-        name: "ไอ๊หยาา",
-        score: "2907"
-    },
-
-    {
-        rank: 19,
-        name: "Nezunanda",
-        score: "3207"
-    },
-
-    {
-        rank: 20,
-        name: "Vannesith",
-        score: "3346"
-    },
-
-    {
-        rank: 21,
-        name: "「SH」SkyRish☆",
-        score: "3529"
-    },
-
-    {
-        rank: 22,
-        name: "Demornato",
-        score: "3557"
-    },
-
-    {
-        rank: 23,
-        name: "「SH」Lunari",
-        score: "4158"
-    },
-
-    {
-        rank: 24,
-        name: "S_Chainzer",
-        score: "4298"
-    },
-
-    {
-        rank: 25,
-        name: "「SH」Xyren",
-        score: "4488"
-    },
-
-    {
-        rank: 26,
-        name: "j4k4l41238325",
-        score: "4662"
-    },
-
-    {
-        rank: 27,
-        name: "NW2M",
-        score: "6566"
-    },
-
-    {
-        rank: 28,
-        name: "「SH」Fournier",
-        score: "6655"
-    },
-
-    {
-        rank: 29,
-        name: "Rui",
-        score: "6901"
-    },
-
-    {
-        rank: 30,
-        name: "Helheim",
-        score: "7102"
-    },
-
-    {
-        rank: 31,
-        name: "CallMeGarr",
-        score: "7315"
-    },
-
-    {
-        rank: 32,
-        name: "Uncle.POM",
-        score: "7529"
-    },
-
-    {
-        rank: 33,
-        name: "kondee",
-        score: "7709"
-    },
-
-    {
-        rank: 34,
-        name: "WhoTao",
-        score: "8711"
-    },
-
-    {
-        rank: 35,
-        name: "Astra",
-        score: "9693"
-    },
-
-    {
-        rank: 36,
-        name: "「SH」Ronaldo",
-        score: "10054"
-    },
-
-    {
-        rank: 37,
-        name: "EmptyCup",
-        score: "11446"
-    },
-
-    {
-        rank: 38,
-        name: "Mthanh",
-        score: "12874"
-    },
-
-    {
-        rank: 39,
-        name: "「SH」Miyuki",
-        score: "#N/A"
-    },
-
-    {
-        rank: 40,
-        name: "Kiralya",
-        score: "#N/A"
-    },
-
-    {
-        rank: 41,
-        name: "5M0K3>.<",
-        score: "#N/A"
-    },
-
-    {
-        rank: 42,
-        name: "ผมหิวข้าว",
-        score: "#N/A"
-    },
-
-    {
-        rank: 43,
-        name: "coretta",
-        score: "#N/A"
-    },
-
-    {
-        rank: 44,
-        name: "「SH」DiPa",
-        score: "#N/A"
-    }
-
-];
-
-
-/* =====================================================
-   TA86 — DRUMBARKA DATA
-===================================================== */
-
-const ta86Data = [
-
-    {
-        rank: 1,
-        name: "「SH」Carrotic",
-        score: "70"
-    },
-
-    {
-        rank: 2,
-        name: "แควมวย (Ebimiso)",
-        score: "345"
-    },
-
-    {
-        rank: 3,
-        name: "Polygon",
-        score: "451"
-    },
-
-    {
-        rank: 4,
-        name: "「SH」Keen",
-        score: "883"
-    },
-
-    {
-        rank: 5,
-        name: "「SH」nero",
-        score: "985"
-    },
-
-    {
-        rank: 6,
-        name: "ไอ๊หยาา",
-        score: "987"
-    },
-
-    {
-        rank: 7,
-        name: "「SH」DedeMiku",
-        score: "1154"
-    },
-
-    {
-        rank: 8,
-        name: "Derain",
-        score: "1294"
-    },
-
-    {
-        rank: 9,
-        name: "セリーン",
-        score: "1305"
-    },
-
-    {
-        rank: 10,
-        name: "「SH」Ronaldo",
-        score: "1324"
-    },
-
-    {
-        rank: 11,
-        name: "「SH」Lunari",
-        score: "1736"
-    },
-
-    {
-        rank: 12,
-        name: "「SH」雨息",
-        score: "1942"
-    },
-
-    {
-        rank: 13,
-        name: "Demornato",
-        score: "2123"
-    },
-
-    {
-        rank: 14,
-        name: "Astra",
-        score: "2309"
-    },
-
-    {
-        rank: 15,
-        name: "Uncle.POM",
-        score: "2310"
-    },
-
-    {
-        rank: 16,
-        name: "Geeao",
-        score: "2341"
-    },
-
-    {
-        rank: 17,
-        name: "「SH」Yura",
-        score: "2706"
-    },
-
-    {
-        rank: 18,
-        name: "Kargvee",
-        score: "3161"
-    },
-
-    {
-        rank: 19,
-        name: "「SH」Nahima",
-        score: "3295"
-    },
-
-    {
-        rank: 20,
-        name: "S_Chainzer",
-        score: "3344"
-    },
-
-    {
-        rank: 21,
-        name: "Vannesith",
-        score: "3371"
-    },
-
-    {
-        rank: 22,
-        name: "「SH」DiPa",
-        score: "3754"
-    },
-
-    {
-        rank: 23,
-        name: "kondee",
-        score: "4028"
-    },
-
-    {
-        rank: 24,
-        name: "Rui",
-        score: "4033"
-    },
-
-    {
-        rank: 25,
-        name: "「SH」Velloz",
-        score: "4421"
-    },
-
-    {
-        rank: 26,
-        name: "Mthanh",
-        score: "4949"
-    },
-
-    {
-        rank: 27,
-        name: "ⓋFOXSNOW✿࿐",
-        score: "6403"
-    },
-
-    {
-        rank: 28,
-        name: "Relax",
-        score: "7591"
-    },
-
-    {
-        rank: 29,
-        name: "j4k4l4",
-        score: "7895"
-    },
-
-    {
-        rank: 30,
-        name: "CallMeGarr",
-        score: "8815"
-    },
-
-    {
-        rank: 31,
-        name: "NW2M",
-        score: "8928"
-    },
-
-    {
-        rank: 32,
-        name: "「SH」Fournier",
-        score: "9047"
-    },
-
-    {
-        rank: 33,
-        name: "WhoTao",
-        score: "9114"
-    },
-
-    {
-        rank: 34,
-        name: "Nezunanda",
-        score: "9248"
-    },
-
-    {
-        rank: 35,
-        name: "「SH」Xyren",
-        score: "9269"
-    },
-
-    {
-        rank: 36,
-        name: "「SH」Messi",
-        score: "9733"
-    },
-
-    {
-        rank: 37,
-        name: "Yayus",
-        score: "11542"
-    },
-
-    {
-        rank: 38,
-        name: "EmptyCup",
-        score: "13117"
-    },
-
-    {
-        rank: 39,
-        name: "Helheim",
-        score: "20649"
-    },
-
-    {
-        rank: 40,
-        name: "「SH」SkyRish☆",
-        score: "#N/A"
-    },
-
-    {
-        rank: 41,
-        name: "「SH」Miyuki",
-        score: "#N/A"
-    },
-
-    {
-        rank: 42,
-        name: "Kiralya",
-        score: "#N/A"
-    },
-
-    {
-        rank: 43,
-        name: "5M0K3>.<",
-        score: "#N/A"
-    },
-
-    {
-        rank: 44,
-        name: "ผมหิวข้าว",
-        score: "#N/A"
-    },
-
-    {
-        rank: 45,
-        name: "coretta",
-        score: "#N/A"
-    }
-
-];
 
 
 /* =====================================================
@@ -2044,66 +1478,6 @@ function createRankRow(
 
 
 /* =====================================================
-   RENDER KUROKAGE
-===================================================== */
-
-function renderKurokage() {
-
-    const topFive =
-        kuroKageData.slice(
-            0,
-            5
-        );
-
-
-    const remaining =
-        kuroKageData.slice(
-            5
-        );
-
-
-    leaderboardContent.innerHTML = `
-
-        <div class="hero-rankings hero-rankings--five">
-
-            ${topFive
-                .map(
-                    (player, index) =>
-                        createHeroCard(
-                            player,
-                            index,
-                            topFive.length
-                        )
-                )
-                .join("")}
-
-        </div>
-
-
-        <div class="ranking-list">
-
-            ${remaining
-                .map(
-                    (player, index) =>
-                        createRankRow(
-                            player,
-                            index
-                        )
-                )
-                .join("")}
-
-        </div>
-
-    `;
-
-
-    setupLeaderboardRevealCleanup();
-
-    animateScoreCounts();
-}
-
-
-/* =====================================================
    REVEAL CLEANUP
 
    ลบคลาส .revealing ออกหลัง animation จบ เพื่อคืนค่า
@@ -2234,90 +1608,6 @@ function animateScoreCounts() {
             );
         }
     );
-}
-
-
-/* =====================================================
-   RENDER TA85
-===================================================== */
-
-function renderTA85() {
-
-    leaderboardContent.innerHTML = `
-
-        <div class="wip-panel">
-
-            <div class="wip-title">
-                TA85 / KAITEN
-            </div>
-
-            <div class="wip-text">
-                RANKING DATA WILL APPEAR HERE
-            </div>
-
-        </div>
-
-    `;
-}
-
-
-/* =====================================================
-   RENDER TA86 — DRUMBARKA
-===================================================== */
-
-function renderTA86() {
-
-    const topFive =
-        ta86Data.slice(
-            0,
-            5
-        );
-
-
-    const remaining =
-        ta86Data.slice(
-            5
-        );
-
-
-    leaderboardContent.innerHTML = `
-
-        <div class="hero-rankings hero-rankings--five">
-
-            ${topFive
-                .map(
-                    (player, index) =>
-                        createHeroCard(
-                            player,
-                            index,
-                            topFive.length
-                        )
-                )
-                .join("")}
-
-        </div>
-
-
-        <div class="ranking-list">
-
-            ${remaining
-                .map(
-                    (player, index) =>
-                        createRankRow(
-                            player,
-                            index
-                        )
-                )
-                .join("")}
-
-        </div>
-
-    `;
-
-
-    setupLeaderboardRevealCleanup();
-
-    animateScoreCounts();
 }
 
 
@@ -2513,44 +1803,540 @@ medalsContent.addEventListener(
 
 
 /* =====================================================
-   BOSS BUTTONS
+   BOSS NAVIGATION
+
+   หน้า Leaderboard มี 2 มุมมอง
+   - "select" = หน้าการ์ดบอส (เลือกบอสก่อน)
+   - "board"  = ตารางอันดับของบอสที่เลือก
+
+   ข้อมูลบอส + ตารางคะแนนอยู่ที่ leaderboard-data.js
 ===================================================== */
 
-function activateBoss(
-    activeButton
+let leaderboardView =
+    "select";
+
+let isBossTransitioning =
+    false;
+
+
+function hexToRgb(
+    hex
 ) {
 
-    ta85Button.classList.remove(
-        "active"
+    const value =
+        String(hex)
+            .replace("#", "")
+            .trim();
+
+    const full =
+        value.length === 3
+            ? value
+                .split("")
+                .map((c) => c + c)
+                .join("")
+            : value;
+
+    const num =
+        parseInt(
+            full,
+            16
+        );
+
+    if (
+        Number.isNaN(num)
+    ) {
+
+        return "255,143,208";
+    }
+
+    return `${(num >> 16) & 255},${(num >> 8) & 255},${num & 255}`;
+}
+
+
+function bossHasData(
+    boss
+) {
+
+    return (
+        Array.isArray(boss.data) &&
+        boss.data.length > 0
+    );
+}
+
+
+function bossArtHTML(
+    boss
+) {
+
+    if (
+        boss.image
+    ) {
+
+        return `
+            <img
+                class="boss-art ${boss.crop ? "boss-art--crop" : ""}"
+                src="${escapeHTML(boss.image)}"
+                alt="${escapeHTML(boss.name)}"
+                draggable="false"
+            >
+        `;
+    }
+
+    return `
+        <div class="boss-art boss-art--placeholder">
+            ${escapeHTML(boss.name.charAt(0))}
+        </div>
+    `;
+}
+
+
+function bossThemeStyle(
+    boss
+) {
+
+    return `--boss: ${boss.color}; --boss-rgb: ${hexToRgb(boss.color)};`;
+}
+
+
+/* =====================================================
+   BOSS CARD
+===================================================== */
+
+function createBossCard(
+    boss,
+    index
+) {
+
+    const hasData =
+        bossHasData(boss);
+
+
+    const status =
+        hasData
+            ? `${boss.data.length} MEMBERS`
+            : "NO DATA YET";
+
+
+    return `
+
+        <button
+            class="boss-card ${hasData ? "has-data" : "no-data"}"
+            type="button"
+            data-boss="${escapeHTML(boss.id)}"
+            aria-label="${escapeHTML(boss.name)}"
+            style="${bossThemeStyle(boss)} --i: ${index};"
+        >
+
+            <span class="boss-card-glow"></span>
+
+            ${bossArtHTML(boss)}
+
+            <span class="boss-card-shade"></span>
+
+            <span class="boss-card-code">
+                ${boss.code ? escapeHTML(boss.code) : "RAID"}
+            </span>
+
+            <span class="boss-card-info">
+
+                <span class="boss-card-name">
+                    ${escapeHTML(boss.name)}
+                </span>
+
+                <span class="boss-card-status">
+                    ${status}
+                </span>
+
+            </span>
+
+        </button>
+
+    `;
+}
+
+
+/* =====================================================
+   BOSS SELECT VIEW
+===================================================== */
+
+function renderBossSelect() {
+
+    leaderboardView =
+        "select";
+
+
+    leaderboardPanel.classList.remove(
+        "has-boss"
     );
 
-    ga33Button.classList.remove(
-        "active"
+
+    const withData =
+        bosses.filter(
+            bossHasData
+        );
+
+    const noData =
+        bosses.filter(
+            (boss) => !bossHasData(boss)
+        );
+
+
+    let cardIndex =
+        0;
+
+
+    const withDataHTML =
+        withData
+            .map(
+                (boss) =>
+                    createBossCard(
+                        boss,
+                        cardIndex++
+                    )
+            )
+            .join("");
+
+
+    const noDataHTML =
+        noData
+            .map(
+                (boss) =>
+                    createBossCard(
+                        boss,
+                        cardIndex++
+                    )
+            )
+            .join("");
+
+
+    leaderboardContent.innerHTML = `
+
+        <div class="boss-select">
+
+            <div class="boss-select-label">
+                SELECT A BOSS
+            </div>
+
+            <div class="boss-grid">
+                ${withDataHTML}
+            </div>
+
+            ${noData.length > 0
+                ? `
+                    <div class="boss-select-label boss-select-label--dim">
+                        NO DATA YET
+                    </div>
+
+                    <div class="boss-grid">
+                        ${noDataHTML}
+                    </div>
+                `
+                : ""}
+
+        </div>
+
+    `;
+
+
+    leaderboardPanel.scrollTop =
+        0;
+}
+
+
+/* =====================================================
+   BOSS BOARD VIEW
+===================================================== */
+
+function createBossBoardHTML(
+    boss
+) {
+
+    if (
+        !bossHasData(boss)
+    ) {
+
+        return `
+
+            <div class="wip-panel">
+
+                <div class="wip-title">
+                    ${escapeHTML(boss.name)}
+                </div>
+
+                <div class="wip-text">
+                    RANKING DATA WILL APPEAR HERE
+                </div>
+
+            </div>
+
+        `;
+    }
+
+
+    const topFive =
+        boss.data.slice(
+            0,
+            5
+        );
+
+    const remaining =
+        boss.data.slice(
+            5
+        );
+
+
+    return `
+
+        <div class="hero-rankings hero-rankings--five">
+
+            ${topFive
+                .map(
+                    (player, index) =>
+                        createHeroCard(
+                            player,
+                            index,
+                            topFive.length
+                        )
+                )
+                .join("")}
+
+        </div>
+
+
+        <div class="ranking-list">
+
+            ${remaining
+                .map(
+                    (player, index) =>
+                        createRankRow(
+                            player,
+                            index
+                        )
+                )
+                .join("")}
+
+        </div>
+
+    `;
+}
+
+
+function renderBossBoard(
+    boss
+) {
+
+    leaderboardView =
+        "board";
+
+
+    leaderboardPanel.style.setProperty(
+        "--boss",
+        boss.color
     );
 
-    ta86Button.classList.remove(
-        "active"
+    leaderboardPanel.style.setProperty(
+        "--boss-rgb",
+        hexToRgb(boss.color)
+    );
+
+    leaderboardPanel.classList.add(
+        "has-boss"
     );
 
 
-    activeButton.classList.add(
-        "active"
+    const hasData =
+        bossHasData(boss);
+
+
+    leaderboardContent.innerHTML = `
+
+        <div
+            class="boss-banner"
+            data-code="${boss.code ? escapeHTML(boss.code) : ""}"
+            style="${bossThemeStyle(boss)}"
+        >
+
+            <div class="boss-banner-art ${boss.crop ? "is-crop" : ""}">
+                ${bossArtHTML(boss)}
+            </div>
+
+            <div class="boss-banner-text">
+
+                <div class="boss-banner-code">
+                    ${boss.code ? escapeHTML(boss.code) : "RAID"}
+                </div>
+
+                <div class="boss-banner-name">
+                    ${escapeHTML(boss.name)}
+                </div>
+
+                <div class="boss-banner-meta">
+                    ${hasData
+                        ? `${boss.data.length} MEMBERS`
+                        : "NO DATA YET"}
+                </div>
+
+                <button
+                    class="boss-all-btn"
+                    type="button"
+                    data-action="boss-all"
+                >
+                    ◂ ALL BOSSES
+                </button>
+
+            </div>
+
+        </div>
+
+        ${createBossBoardHTML(boss)}
+
+    `;
+
+
+    setupLeaderboardRevealCleanup();
+
+    animateScoreCounts();
+
+
+    leaderboardPanel.scrollTop =
+        0;
+}
+
+
+/* =====================================================
+   SELECT BOSS — TRANSITION + BLOOM LIGHT
+
+   1) แสง bloom สีของบอสระเบิดออกจากตำแหน่งการ์ดที่กด
+   2) การ์ดที่เลือกเด้ง/เรืองแสง การ์ดอื่นจางและเบลอ
+   3) ตอนแสงสว่างสุด สลับเนื้อหาเป็นตาราง Leaderboard
+   4) แสงค่อยๆ จางลง ตารางเผยขึ้นมา
+===================================================== */
+
+function selectBoss(
+    card
+) {
+
+    if (
+        isBossTransitioning
+    ) {
+
+        return;
+    }
+
+
+    const boss =
+        bosses.find(
+            (item) => item.id === card.dataset.boss
+        );
+
+    if (
+        !boss
+    ) {
+
+        return;
+    }
+
+
+    isBossTransitioning =
+        true;
+
+
+    const rect =
+        card.getBoundingClientRect();
+
+
+    bossBloom.style.setProperty(
+        "--boss-rgb",
+        hexToRgb(boss.color)
+    );
+
+    bossBloom.style.setProperty(
+        "--bx",
+        `${rect.left + rect.width / 2}px`
+    );
+
+    bossBloom.style.setProperty(
+        "--by",
+        `${rect.top + rect.height / 2}px`
+    );
+
+
+    bossBloom.classList.remove(
+        "play"
+    );
+
+    void bossBloom.offsetWidth;
+
+    bossBloom.classList.add(
+        "play"
+    );
+
+
+    card.classList.add(
+        "is-chosen"
+    );
+
+    leaderboardContent.classList.add(
+        "is-selecting"
+    );
+
+
+    setTimeout(
+        () => {
+
+            renderBossBoard(
+                boss
+            );
+
+            leaderboardContent.classList.remove(
+                "is-selecting"
+            );
+
+            leaderboardContent.classList.add(
+                "board-enter"
+            );
+
+        },
+        480
+    );
+
+
+    setTimeout(
+        () => {
+
+            bossBloom.classList.remove(
+                "play"
+            );
+
+            leaderboardContent.classList.remove(
+                "board-enter"
+            );
+
+            isBossTransitioning =
+                false;
+
+        },
+        1250
     );
 }
 
 
 /* =====================================================
-   BOSS TAB SWITCH (with crossfade)
+   BACK TO BOSS SELECT
 ===================================================== */
 
-function switchBossTab(
-    button,
-    renderFn
-) {
+function backToBossSelect() {
 
-    activateBoss(
-        button
-    );
+    if (
+        isBossTransitioning
+    ) {
+
+        return;
+    }
+
+
+    isBossTransitioning =
+        true;
 
 
     leaderboardContent.classList.add(
@@ -2561,53 +2347,82 @@ function switchBossTab(
     setTimeout(
         () => {
 
-            renderFn();
+            renderBossSelect();
 
             leaderboardContent.classList.remove(
                 "is-switching"
             );
 
+            isBossTransitioning =
+                false;
+
         },
-        160
+        200
     );
 }
 
 
-ta85Button.addEventListener(
-    "click",
-    () => {
+/* =====================================================
+   LEADERBOARD BACK BUTTON
 
-        switchBossTab(
-            ta85Button,
-            renderTA85
-        );
+   ปุ่ม BACK มุมซ้ายบนใช้ตามบริบท
+   - อยู่ในตารางบอส  -> กลับไปหน้าเลือกบอส
+   - อยู่หน้าเลือกบอส -> กลับเมนูหลัก
+===================================================== */
 
+function handleLeaderboardBack() {
+
+    if (
+        isBossTransitioning
+    ) {
+
+        return;
     }
-);
 
 
-ga33Button.addEventListener(
-    "click",
-    () => {
+    if (
+        leaderboardView === "board"
+    ) {
 
-        switchBossTab(
-            ga33Button,
-            renderKurokage
-        );
+        backToBossSelect();
 
+        return;
     }
-);
 
 
-ta86Button.addEventListener(
+    goBackToMenu();
+}
+
+
+leaderboardContent.addEventListener(
     "click",
-    () => {
+    (event) => {
 
-        switchBossTab(
-            ta86Button,
-            renderTA86
-        );
+        const card =
+            event.target.closest(
+                ".boss-card"
+            );
 
+        if (
+            card
+        ) {
+
+            selectBoss(
+                card
+            );
+
+            return;
+        }
+
+
+        if (
+            event.target.closest(
+                '[data-action="boss-all"]'
+            )
+        ) {
+
+            backToBossSelect();
+        }
     }
 );
 
@@ -2616,7 +2431,7 @@ ta86Button.addEventListener(
    INITIAL LEADERBOARD
 ===================================================== */
 
-renderKurokage();
+renderBossSelect();
 
 
 /* =====================================================

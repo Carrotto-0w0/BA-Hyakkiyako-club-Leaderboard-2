@@ -812,94 +812,996 @@ body.night-mode
 
 
 /* =====================================================
-   BOSS SELECTOR
+   BOSS SELECT — การ์ดเลือกบอส
+
+   สีธีมของแต่ละบอสส่งผ่านตัวแปร --boss / --boss-rgb
+   (ตั้งค่าใน leaderboard-data.js ที่ field color)
 ===================================================== */
 
-.boss-selector {
-    display: flex;
-
-    justify-content: center;
-
-    gap: 12px;
-
-    margin:
-        25px 0 25px;
+.boss-select {
+    padding: 4px 0 6px;
 }
 
 
-.boss-button {
-    width: 175px;
-    height: 55px;
+.boss-select-label {
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    margin: 22px 0 16px;
+
+    font-size: 10px;
+
+    letter-spacing: 6px;
+
+    color:
+        rgba(255,210,232,0.62);
+}
+
+
+.boss-select-label::before,
+.boss-select-label::after {
+    content: "";
+
+    flex: 1;
+
+    height: 1px;
+}
+
+
+.boss-select-label::before {
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,160,215,0.38)
+        );
+}
+
+
+.boss-select-label::after {
+    background:
+        linear-gradient(
+            90deg,
+            rgba(255,160,215,0.38),
+            transparent
+        );
+}
+
+
+.boss-select-label--dim {
+    margin-top: 38px;
+
+    color:
+        rgba(255,210,232,0.34);
+}
+
+
+.boss-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fill, minmax(190px, 1fr));
+
+    gap: 18px;
+}
+
+
+.boss-card {
+    position: relative;
+
+    isolation: isolate;
+
+    height: 236px;
+
+    padding: 0;
+
+    overflow: hidden;
+
+    text-align: left;
+
+    color: #fff;
+
+    cursor: pointer;
+
+    border:
+        1px solid
+        rgba(var(--boss-rgb), 0.38);
+
+    border-radius: 14px;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(34,10,31,0.88),
+            rgba(12,4,13,0.96)
+        );
+
+    animation:
+        bossCardIn 0.55s
+        cubic-bezier(0.2, 0.8, 0.2, 1)
+        backwards;
+
+    animation-delay:
+        calc(var(--i, 0) * 55ms);
+
+    transition:
+        transform 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease,
+        opacity 0.35s ease,
+        filter 0.35s ease;
+}
+
+
+@keyframes bossCardIn {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(20px)
+            scale(0.96);
+    }
+}
+
+
+.boss-card:hover {
+    transform:
+        translateY(-5px);
+
+    border-color:
+        rgba(var(--boss-rgb), 0.95);
+
+    box-shadow:
+        0 10px 26px
+        rgba(var(--boss-rgb), 0.28),
+
+        0 0 28px
+        rgba(var(--boss-rgb), 0.22);
+}
+
+
+.boss-card-glow {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 0;
+
+    opacity: 0.8;
+
+    background:
+        radial-gradient(
+            ellipse at 50% 88%,
+            rgba(var(--boss-rgb), 0.42),
+            transparent 64%
+        ),
+
+        radial-gradient(
+            circle at 50% 0%,
+            rgba(var(--boss-rgb), 0.14),
+            transparent 62%
+        );
+
+    transition:
+        opacity 0.35s ease;
+}
+
+
+.boss-card:hover .boss-card-glow {
+    opacity: 1;
+}
+
+
+.boss-card-shade {
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    height: 46%;
+
+    z-index: 2;
+
+    pointer-events: none;
+
+    background:
+        linear-gradient(
+            180deg,
+            transparent,
+            rgba(10,3,12,0.92)
+        );
+}
+
+
+/* ---------- ART (รูปบอส) ---------- */
+
+.boss-art {
+    position: absolute;
+
+    left: 50%;
+    bottom: 0;
+
+    z-index: 1;
+
+    max-width: 94%;
+    max-height: 80%;
+
+    transform:
+        translateX(-50%);
+
+    object-fit: contain;
+
+    pointer-events: none;
+
+    user-select: none;
+
+    filter:
+        drop-shadow(
+            0 8px 14px
+            rgba(0,0,0,0.5)
+        );
+
+    transition:
+        transform 0.45s
+        cubic-bezier(0.2, 0.8, 0.2, 1),
+        filter 0.35s ease,
+        opacity 0.35s ease;
+}
+
+
+.boss-card:hover .boss-art {
+    transform:
+        translateX(-50%)
+        scale(1.07);
+}
+
+
+.boss-art--crop {
+    left: 0;
+
+    width: 100%;
+    height: 64%;
+
+    max-width: none;
+    max-height: none;
+
+    transform: none;
+
+    object-fit: cover;
+    object-position: center bottom;
+
+    filter: none;
+}
+
+
+.boss-card:hover .boss-art--crop {
+    transform:
+        scale(1.07);
+}
+
+
+.boss-art--crop,
+.boss-banner-art .boss-art--crop {
+    -webkit-mask-image:
+        linear-gradient(
+            180deg,
+            transparent 0%,
+            #000 34%
+        );
+
+    mask-image:
+        linear-gradient(
+            180deg,
+            transparent 0%,
+            #000 34%
+        );
+}
+
+
+.boss-art--placeholder {
+    bottom: 38px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: auto;
+    height: auto;
+
+    max-height: none;
+
+    font-size: 88px;
+
+    font-weight: 700;
+
+    line-height: 1;
+
+    color:
+        rgba(var(--boss-rgb), 0.55);
+
+    text-shadow:
+        0 0 30px
+        rgba(var(--boss-rgb), 0.65);
+
+    filter: none;
+}
+
+
+/* ---------- TEXT ---------- */
+
+.boss-card-code {
+    position: absolute;
+
+    top: 10px;
+    left: 10px;
+
+    z-index: 3;
+
+    padding: 3px 10px;
+
+    border-radius: 999px;
+
+    border:
+        1px solid
+        rgba(var(--boss-rgb), 0.65);
+
+    background:
+        rgba(var(--boss-rgb), 0.18);
+
+    font-size: 10px;
+
+    letter-spacing: 3px;
+
+    text-shadow:
+        0 0 8px
+        rgba(var(--boss-rgb), 0.9);
+}
+
+
+.boss-card-info {
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    z-index: 3;
 
     display: flex;
 
     flex-direction: column;
 
-    justify-content: center;
-    align-items: center;
+    gap: 4px;
 
-    gap: 3px;
+    padding: 0 13px 12px;
+}
+
+
+.boss-card-name {
+    max-width: 100%;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    letter-spacing: 3px;
+
+    text-shadow:
+        0 0 14px
+        rgba(var(--boss-rgb), 0.7);
+}
+
+
+.boss-card-status {
+    font-size: 8px;
+
+    letter-spacing: 3px;
+
+    color:
+        rgba(255,225,240,0.62);
+}
+
+
+/* ---------- ยังไม่มีข้อมูล (หรี่ลง) ---------- */
+
+.boss-card.no-data {
+    border-color:
+        rgba(255,160,215,0.16);
+}
+
+
+.boss-card.no-data .boss-art {
+    opacity: 0.8;
+
+    filter:
+        grayscale(0.85)
+        brightness(0.55);
+}
+
+
+.boss-card.no-data .boss-card-glow {
+    opacity: 0.22;
+}
+
+
+.boss-card.no-data:hover .boss-art {
+    opacity: 1;
+
+    filter:
+        grayscale(0.3)
+        brightness(0.9);
+}
+
+
+.boss-card.no-data:hover .boss-card-glow {
+    opacity: 0.6;
+}
+
+
+/* ---------- ตอนกดเลือก ---------- */
+
+.leaderboard-content.is-selecting
+.boss-card:not(.is-chosen) {
+    opacity: 0.14;
+
+    filter:
+        blur(3px)
+        saturate(0.4);
+
+    transform:
+        scale(0.94);
+
+    pointer-events: none;
+}
+
+
+.boss-card.is-chosen {
+    z-index: 5;
+
+    pointer-events: none;
+
+    transform:
+        scale(1.1);
+
+    border-color:
+        rgba(var(--boss-rgb), 1);
+
+    box-shadow:
+        0 0 0 2px
+        rgba(var(--boss-rgb), 0.6),
+
+        0 0 40px
+        rgba(var(--boss-rgb), 0.75),
+
+        0 0 90px
+        rgba(var(--boss-rgb), 0.45);
+
+    animation:
+        bossChosenFlash 0.55s
+        ease both;
+}
+
+
+@keyframes bossChosenFlash {
+
+    0% {
+        filter: brightness(1);
+    }
+
+    40% {
+        filter:
+            brightness(1.8)
+            saturate(1.2);
+    }
+
+    100% {
+        filter: brightness(1.2);
+    }
+}
+
+
+/* =====================================================
+   BOSS BLOOM — แสงเรืองระเบิดตอนกดเลือกบอส
+===================================================== */
+
+.boss-bloom {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 25;
+
+    overflow: hidden;
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    mix-blend-mode: screen;
+}
+
+
+.boss-bloom.play {
+    opacity: 1;
+
+    animation:
+        bossBloomWash 1.15s
+        ease forwards;
+}
+
+
+.boss-bloom::before,
+.boss-bloom::after {
+    content: "";
+
+    position: absolute;
+
+    left: var(--bx, 50%);
+    top: var(--by, 50%);
+
+    border-radius: 50%;
+
+    opacity: 0;
+
+    transform: scale(0);
+}
+
+
+.boss-bloom::before {
+    width: 140vmax;
+    height: 140vmax;
+
+    margin:
+        -70vmax 0 0 -70vmax;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,255,255,0.9) 0%,
+            rgba(var(--boss-rgb), 0.9) 9%,
+            rgba(var(--boss-rgb), 0.46) 22%,
+            rgba(var(--boss-rgb), 0.12) 42%,
+            transparent 62%
+        );
+}
+
+
+.boss-bloom::after {
+    width: 160px;
+    height: 160px;
+
+    margin:
+        -80px 0 0 -80px;
+
+    border:
+        2px solid
+        rgba(var(--boss-rgb), 0.95);
+
+    box-shadow:
+        0 0 30px
+        rgba(var(--boss-rgb), 0.85),
+
+        inset 0 0 30px
+        rgba(var(--boss-rgb), 0.6);
+}
+
+
+.boss-bloom.play::before {
+    animation:
+        bossBloomBurst 1.15s
+        cubic-bezier(0.2, 0.7, 0.2, 1)
+        forwards;
+}
+
+
+.boss-bloom.play::after {
+    animation:
+        bossBloomRing 0.95s
+        cubic-bezier(0.15, 0.7, 0.2, 1)
+        forwards;
+}
+
+
+@keyframes bossBloomWash {
+
+    0% {
+        background:
+            rgba(var(--boss-rgb), 0);
+    }
+
+    38% {
+        background:
+            rgba(var(--boss-rgb), 0.5);
+    }
+
+    55% {
+        background:
+            rgba(var(--boss-rgb), 0.42);
+    }
+
+    100% {
+        background:
+            rgba(var(--boss-rgb), 0);
+    }
+}
+
+
+@keyframes bossBloomBurst {
+
+    0% {
+        opacity: 0;
+
+        transform: scale(0);
+    }
+
+    22% {
+        opacity: 1;
+
+        transform: scale(0.55);
+    }
+
+    42% {
+        opacity: 1;
+
+        transform: scale(0.9);
+    }
+
+    100% {
+        opacity: 0;
+
+        transform: scale(1.35);
+    }
+}
+
+
+@keyframes bossBloomRing {
+
+    0% {
+        opacity: 1;
+
+        transform: scale(0.2);
+    }
+
+    100% {
+        opacity: 0;
+
+        transform: scale(11);
+    }
+}
+
+
+/* =====================================================
+   BOSS BOARD — ส่วนหัวของตารางอันดับ (ธีมสีบอส)
+===================================================== */
+
+.leaderboard-container {
+    transition:
+        border-color 0.5s ease,
+        box-shadow 0.5s ease;
+}
+
+
+.leaderboard-container.has-boss {
+    border-color:
+        rgba(var(--boss-rgb), 0.5);
+
+    box-shadow:
+        0 0 34px
+        rgba(var(--boss-rgb), 0.2),
+
+        0 0 90px
+        rgba(var(--boss-rgb), 0.1),
+
+        inset 0 0 40px
+        rgba(var(--boss-rgb), 0.04);
+}
+
+
+.leaderboard-container.has-boss::before {
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(var(--boss-rgb), 0.95),
+            transparent
+        );
+}
+
+
+.leaderboard-content.board-enter {
+    animation:
+        bossBoardIn 0.75s
+        ease backwards;
+}
+
+
+@keyframes bossBoardIn {
+
+    from {
+        opacity: 0;
+
+        filter: blur(10px);
+
+        transform: scale(1.03);
+    }
+}
+
+
+.boss-banner {
+    position: relative;
+
+    display: flex;
+
+    align-items: flex-end;
+
+    gap: 22px;
+
+    min-height: 150px;
+
+    margin: 46px 0 26px;
+
+    padding: 0 26px;
 
     border:
         1px solid
-        rgba(255,150,215,0.30);
+        rgba(var(--boss-rgb), 0.42);
+
+    border-radius: 16px;
 
     background:
-        rgba(40,8,34,0.48);
+        radial-gradient(
+            ellipse at 16% 100%,
+            rgba(var(--boss-rgb), 0.34),
+            transparent 60%
+        ),
+
+        linear-gradient(
+            90deg,
+            rgba(var(--boss-rgb), 0.1),
+            rgba(20,6,18,0.55)
+        );
+
+    box-shadow:
+        0 0 30px
+        rgba(var(--boss-rgb), 0.14),
+
+        inset 0 0 40px
+        rgba(var(--boss-rgb), 0.06);
+
+    animation:
+        bossBannerIn 0.8s
+        cubic-bezier(0.2, 0.8, 0.2, 1)
+        backwards;
+}
+
+
+.boss-banner::after {
+    content: attr(data-code);
+
+    position: absolute;
+
+    right: 26px;
+    bottom: 8px;
+
+    font-size: 84px;
+
+    font-weight: 700;
+
+    letter-spacing: 6px;
+
+    line-height: 1;
 
     color:
-        rgba(255,215,235,0.65);
+        rgba(var(--boss-rgb), 0.12);
+
+    text-shadow:
+        0 0 30px
+        rgba(var(--boss-rgb), 0.18);
+
+    pointer-events: none;
+}
+
+
+@keyframes bossBannerIn {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(14px);
+    }
+}
+
+
+.boss-banner-art {
+    position: relative;
+
+    flex: 0 0 auto;
+
+    width: 240px;
+    height: 190px;
+
+    margin-top: -42px;
+}
+
+
+.boss-banner-art.is-crop {
+    height: 150px;
+
+    margin-top: 0;
+
+    overflow: hidden;
+
+    border-radius: 0 0 0 15px;
+}
+
+
+.boss-banner-art .boss-art {
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    max-width: none;
+    max-height: none;
+
+    transform: none;
+
+    object-position: center bottom;
+
+    animation:
+        bossArtIn 0.9s
+        cubic-bezier(0.2, 0.8, 0.2, 1)
+        backwards;
+}
+
+
+@keyframes bossArtIn {
+
+    from {
+        opacity: 0;
+
+        filter: blur(10px);
+
+        transform: scale(1.18);
+    }
+}
+
+
+.boss-banner-art .boss-art--placeholder {
+    bottom: 26px;
+
+    width: 100%;
+
+    font-size: 92px;
+}
+
+
+.boss-banner-text {
+    flex: 1;
+
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 7px;
+
+    padding: 20px 0;
+}
+
+
+.boss-banner-code {
+    font-size: 11px;
+
+    letter-spacing: 5px;
+
+    color: var(--boss);
+
+    text-shadow:
+        0 0 12px
+        rgba(var(--boss-rgb), 0.85);
+}
+
+
+.boss-banner-name {
+    font-size: 30px;
+
+    line-height: 1.1;
+
+    font-weight: 600;
+
+    letter-spacing: 6px;
+
+    color: #fff;
+
+    text-shadow:
+        0 0 22px
+        rgba(var(--boss-rgb), 0.7);
+}
+
+
+.boss-banner-meta {
+    font-size: 10px;
+
+    letter-spacing: 4px;
+
+    color:
+        rgba(255,225,240,0.55);
+}
+
+
+.boss-all-btn {
+    margin-top: 8px;
+
+    padding: 7px 15px;
+
+    border-radius: 999px;
+
+    border:
+        1px solid
+        rgba(var(--boss-rgb), 0.55);
+
+    background:
+        rgba(var(--boss-rgb), 0.12);
+
+    color: #fff;
+
+    font-size: 10px;
+
+    letter-spacing: 3px;
 
     cursor: pointer;
 
     transition:
-        border-color 0.25s ease,
-        background 0.25s ease,
-        box-shadow 0.25s ease,
-        transform 0.25s ease;
+        background 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
 }
 
 
-.boss-button:hover {
-    transform:
-        translateY(-2px);
-
-    border-color:
-        rgba(255,180,225,0.65);
-}
-
-
-.boss-button.active {
-    border-color:
-        rgba(255,150,215,0.9);
-
+.boss-all-btn:hover {
     background:
-        rgba(105,20,80,0.35);
-
-    color:
-        #fff;
+        rgba(var(--boss-rgb), 0.3);
 
     box-shadow:
-        0 0 18px
-        rgba(255,90,185,0.20);
+        0 0 16px
+        rgba(var(--boss-rgb), 0.4);
+
+    transform:
+        translateX(-2px);
 }
 
 
-.boss-code {
-    font-size: 15px;
+@media (prefers-reduced-motion: reduce) {
 
-    letter-spacing: 3px;
+    .boss-card,
+    .boss-banner,
+    .boss-banner-art .boss-art,
+    .leaderboard-content.board-enter {
+        animation: none;
+    }
 
-    font-weight: 600;
-}
-
-
-.boss-name {
-    font-size: 9px;
-
-    letter-spacing: 3px;
-
-    opacity: 0.75;
+    .boss-bloom.play,
+    .boss-bloom.play::before,
+    .boss-bloom.play::after {
+        animation-duration: 0.01s;
+    }
 }
 
 
@@ -2560,15 +3462,75 @@ body.night-mode
 
 
 
-    .boss-selector {
-        gap: 8px;
+    .boss-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+
+        gap: 12px;
     }
 
 
-    .boss-button {
-        width: 145px;
+    .boss-card {
+        height: 205px;
+    }
 
-        height: 52px;
+
+    .boss-card-name {
+        font-size: 12px;
+
+        letter-spacing: 2px;
+    }
+
+
+    .boss-banner {
+        flex-direction: column;
+
+        align-items: center;
+
+        gap: 0;
+
+        margin-top: 34px;
+
+        padding: 0 14px 18px;
+
+        text-align: center;
+    }
+
+
+    .boss-banner-art,
+    .boss-banner-art.is-crop {
+        width: 100%;
+        max-width: 240px;
+    }
+
+
+    .boss-banner-art {
+        height: 150px;
+
+        margin-top: -22px;
+    }
+
+
+    .boss-banner-art.is-crop {
+        height: 140px;
+
+        margin-top: 0;
+
+        border-radius: 0 0 15px 15px;
+    }
+
+
+    .boss-banner-text {
+        align-items: center;
+
+        padding: 14px 0 0;
+    }
+
+
+    .boss-banner-name {
+        font-size: 22px;
+
+        letter-spacing: 4px;
     }
 
 
