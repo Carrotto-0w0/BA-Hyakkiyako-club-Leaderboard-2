@@ -84,6 +84,18 @@ const leaderboardPanel =
 const medalsContent =
     document.getElementById("medalsContent");
 
+const galleryButton =
+    document.getElementById("galleryButton");
+
+const galleryOverlay =
+    document.getElementById("galleryOverlay");
+
+const galleryVideo =
+    document.getElementById("galleryVideo");
+
+const galleryClose =
+    document.getElementById("galleryClose");
+
 const keiIceFrame =
     document.getElementById("keiIceFrame");
 
@@ -1163,6 +1175,9 @@ function openMedals() {
 
 function goBackToMenu() {
 
+    closeGallery();
+
+
     leaderboardScreen.classList.remove(
         "active"
     );
@@ -1282,7 +1297,153 @@ keiIceBackButton.addEventListener(
 
 medalsBackButton.addEventListener(
     "click",
-    goBackToMenu
+    handleClubBack
+);
+
+
+/* =====================================================
+   HALL OF FAME & GALLERY (placeholder)
+
+   - กดปุ่มแล้วโชว์วิดีโอและเล่นทันที (ไม่ loop)
+   - โหลดไฟล์วิดีโอตอนกดครั้งแรกเท่านั้น (ประหยัดเน็ต)
+   - เปลี่ยนไฟล์วิดีโอได้ที่ GALLERY_VIDEO_SRC
+===================================================== */
+
+const GALLERY_VIDEO_SRC =
+    "./media/gallery-placeholder.mp4";
+
+
+function isGalleryOpen() {
+
+    return galleryOverlay.classList.contains(
+        "open"
+    );
+}
+
+
+function openGallery() {
+
+    galleryOverlay.classList.add(
+        "open"
+    );
+
+    galleryOverlay.setAttribute(
+        "aria-hidden",
+        "false"
+    );
+
+
+    if (
+        !galleryVideo.getAttribute("src")
+    ) {
+
+        galleryVideo.src =
+            GALLERY_VIDEO_SRC;
+    }
+
+
+    galleryVideo.loop =
+        false;
+
+    galleryVideo.muted =
+        false;
+
+    galleryVideo.currentTime =
+        0;
+
+
+    const playPromise =
+        galleryVideo.play();
+
+
+    if (
+        playPromise !== undefined
+    ) {
+
+        playPromise.catch(
+            () => {
+
+                /*
+                    เบราว์เซอร์บางตัวไม่ยอมเล่นพร้อมเสียง
+                    -> ลองเล่นแบบปิดเสียง (กดเปิดเสียงเองได้)
+                */
+
+                galleryVideo.muted =
+                    true;
+
+                galleryVideo.play().catch(
+                    () => {}
+                );
+            }
+        );
+    }
+}
+
+
+function closeGallery() {
+
+    if (
+        !isGalleryOpen()
+    ) {
+
+        return;
+    }
+
+
+    galleryOverlay.classList.remove(
+        "open"
+    );
+
+    galleryOverlay.setAttribute(
+        "aria-hidden",
+        "true"
+    );
+
+
+    galleryVideo.pause();
+
+    galleryVideo.currentTime =
+        0;
+}
+
+
+function handleClubBack() {
+
+    if (
+        isGalleryOpen()
+    ) {
+
+        closeGallery();
+
+        return;
+    }
+
+
+    goBackToMenu();
+}
+
+
+galleryButton.addEventListener(
+    "click",
+    openGallery
+);
+
+galleryClose.addEventListener(
+    "click",
+    closeGallery
+);
+
+document.addEventListener(
+    "keydown",
+    (event) => {
+
+        if (
+            event.key === "Escape"
+        ) {
+
+            closeGallery();
+        }
+    }
 );
 
 

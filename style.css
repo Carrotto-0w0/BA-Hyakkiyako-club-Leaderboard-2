@@ -3632,6 +3632,232 @@ body.night-mode
 
 
 /* =====================================================
+   HALL OF FAME & GALLERY — ปุ่ม + หน้าโชว์วิดีโอ
+===================================================== */
+
+.club-gallery-btn {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    margin-top: 18px;
+
+    padding: 9px 22px;
+
+    border-radius: 999px;
+
+    border:
+        1px solid
+        rgba(255,217,138,0.55);
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(255,217,138,0.12),
+            rgba(255,140,208,0.12)
+        );
+
+    color: #fff4dc;
+
+    font-size: 11px;
+
+    letter-spacing: 4px;
+
+    cursor: pointer;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.club-gallery-btn:hover {
+    border-color:
+        rgba(255,217,138,0.95);
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(255,217,138,0.22),
+            rgba(255,140,208,0.2)
+        );
+
+    box-shadow:
+        0 0 18px
+        rgba(255,200,120,0.28);
+
+    transform:
+        translateY(-2px);
+}
+
+
+.club-gallery-icon {
+    font-size: 14px;
+
+    letter-spacing: 0;
+}
+
+
+.gallery-overlay {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 20;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 16px;
+
+    padding: 64px 14px 24px;
+
+    background:
+        rgba(8,3,10,0.9);
+
+    -webkit-backdrop-filter:
+        blur(8px);
+
+    backdrop-filter:
+        blur(8px);
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    pointer-events: none;
+
+    transition:
+        opacity 0.25s ease,
+        visibility 0.25s ease;
+}
+
+
+.gallery-overlay.open {
+    opacity: 1;
+
+    visibility: visible;
+
+    pointer-events: auto;
+}
+
+
+.gallery-title {
+    font-size: 14px;
+
+    letter-spacing: 6px;
+
+    color: #ffe6a8;
+
+    text-align: center;
+
+    text-shadow:
+        0 0 14px
+        rgba(255,200,120,0.45);
+}
+
+
+.gallery-video-wrap {
+    width:
+        min(1000px, 94vw);
+
+    max-height:
+        calc(100vh - 220px);
+
+    aspect-ratio: 16 / 9;
+
+    overflow: hidden;
+
+    border:
+        1px solid
+        rgba(255,217,138,0.45);
+
+    border-radius: 14px;
+
+    background: #000;
+
+    box-shadow:
+        0 0 34px
+        rgba(255,200,120,0.16),
+
+        0 0 80px
+        rgba(255,90,180,0.1);
+}
+
+
+.gallery-video {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    background: #000;
+}
+
+
+.gallery-caption {
+    font-size: 10px;
+
+    letter-spacing: 6px;
+
+    color:
+        rgba(255,225,235,0.55);
+}
+
+
+.gallery-close {
+    position: absolute;
+
+    top:
+        calc(12px + env(safe-area-inset-top, 0px));
+
+    right: 18px;
+
+    width: 34px;
+    height: 34px;
+
+    border-radius: 50%;
+
+    border:
+        1px solid
+        rgba(255,170,220,0.45);
+
+    background:
+        rgba(20,7,17,0.6);
+
+    color: #ffeaf5;
+
+    font-size: 14px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.gallery-close:hover {
+    background:
+        rgba(90,20,70,0.55);
+
+    box-shadow:
+        0 0 14px
+        rgba(255,100,190,0.3);
+}
+
+
+/* =====================================================
    MOBILE
 ===================================================== */
 
@@ -3887,6 +4113,26 @@ body.night-mode
         font-size: 9px;
 
         letter-spacing: 1px;
+    }
+
+}
+
+
+@media (max-width: 768px) {
+
+    .club-gallery-btn {
+        padding: 8px 16px;
+
+        font-size: 10px;
+
+        letter-spacing: 3px;
+    }
+
+
+    .gallery-title {
+        font-size: 12px;
+
+        letter-spacing: 4px;
     }
 
 }
