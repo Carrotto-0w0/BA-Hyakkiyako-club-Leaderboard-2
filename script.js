@@ -1908,12 +1908,6 @@ function createBossCard(
         bossHasData(boss);
 
 
-    const status =
-        hasData
-            ? `${boss.data.length} MEMBERS`
-            : "NO DATA YET";
-
-
     return `
 
         <button
@@ -1934,10 +1928,6 @@ function createBossCard(
 
                 <span class="boss-card-name">
                     ${escapeHTML(boss.name)}
-                </span>
-
-                <span class="boss-card-status">
-                    ${status}
                 </span>
 
             </span>
