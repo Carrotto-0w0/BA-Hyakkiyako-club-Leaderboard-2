@@ -18,6 +18,9 @@
    - image : รูปในโฟลเดอร์ bosses/ (ว่าง "" ได้ จะโชว์ตัวอักษรแทน)
    - crop  : true = รูปแบบครึ่งตัว/แนวกว้าง ให้ครอปเต็มการ์ด
    - scale : (ไม่ใส่ก็ได้) ขยายรูปในการ์ดให้ใหญ่ขึ้น เช่น 1.2 = ใหญ่ขึ้น 20%
+   - fill  : true = รูปแบบเต็มกรอบ (ภาพไม่ตัดพื้นหลัง) ให้เติมเต็มทั้งการ์ด
+   - special / hero : บอสพิเศษ (มีม) special: "terror" จะโชว์รูป hero
+                      พร้อม particle และข้อความ glitch แทนตารางอันดับ
    - color : สีธีมของบอส ใช้กับแสง bloom และกรอบหน้า leaderboard
 ===================================================== */
 
@@ -1435,6 +1438,19 @@ const bosses = [
         crop: true,
         color: "#ff3d6a",
         data: kuroKageData
+    },
+
+    {
+        id: "demonarto-terror",
+        code: "",
+        name: "DEMONARTO TERROR",
+        image: "bosses/demonarto-terror.webp",
+        hero: "bosses/demonarto-terror-2.webp",
+        special: "terror",
+        fill: true,
+        crop: false,
+        color: "#e0405a",
+        data: null
     },
 
     {

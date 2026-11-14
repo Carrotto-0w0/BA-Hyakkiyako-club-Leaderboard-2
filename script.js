@@ -1871,7 +1871,7 @@ function bossArtHTML(
 
         return `
             <img
-                class="boss-art ${boss.crop ? "boss-art--crop" : ""}"
+                class="boss-art ${boss.crop ? "boss-art--crop" : ""} ${boss.fill ? "boss-art--fill" : ""}"
                 src="${escapeHTML(boss.image)}"
                 alt="${escapeHTML(boss.name)}"
                 draggable="false"
@@ -1904,14 +1904,14 @@ function createBossCard(
     index
 ) {
 
-    const hasData =
-        bossHasData(boss);
+    const isLive =
+        bossHasData(boss) || Boolean(boss.special);
 
 
     return `
 
         <button
-            class="boss-card ${hasData ? "has-data" : "no-data"}"
+            class="boss-card ${isLive ? "has-data" : "no-data"}"
             type="button"
             data-boss="${escapeHTML(boss.id)}"
             aria-label="${escapeHTML(boss.name)}"
@@ -1948,19 +1948,25 @@ function renderBossSelect() {
         "select";
 
 
+    stopTerrorEffects();
+
+
     leaderboardPanel.classList.remove(
         "has-boss"
     );
 
 
+    const isLive =
+        (boss) => bossHasData(boss) || Boolean(boss.special);
+
     const withData =
         bosses.filter(
-            bossHasData
+            isLive
         );
 
     const noData =
         bosses.filter(
-            (boss) => !bossHasData(boss)
+            (boss) => !isLive(boss)
         );
 
 
@@ -2127,6 +2133,21 @@ function renderBossBoard(
     );
 
 
+    stopTerrorEffects();
+
+
+    if (
+        boss.special === "terror"
+    ) {
+
+        renderTerrorBoard(
+            boss
+        );
+
+        return;
+    }
+
+
     const hasData =
         bossHasData(boss);
 
@@ -2285,6 +2306,493 @@ function backToBossSelect() {
         },
         200
     );
+}
+
+
+/* =====================================================
+   SPECIAL BOSS — DEMONARTO TERROR (มีมของสมาชิก)
+
+   - โชว์ภาพที่ 2 (boss.hero) พร้อม particle ประกายไฟลอยขึ้น
+     สไตล์บอสใน Elden Ring (ทอง/ส้ม/ม่วง)
+   - เลื่อนลงมาจะเจอข้อความ glitch แทนตารางอันดับ
+===================================================== */
+
+let terrorEmberFrame =
+    0;
+
+let terrorResizeObserver =
+    null;
+
+let terrorMessageObserver =
+    null;
+
+
+function stopTerrorEffects() {
+
+    if (
+        terrorEmberFrame
+    ) {
+
+        cancelAnimationFrame(
+            terrorEmberFrame
+        );
+
+        terrorEmberFrame =
+            0;
+    }
+
+
+    if (
+        terrorResizeObserver
+    ) {
+
+        terrorResizeObserver.disconnect();
+
+        terrorResizeObserver =
+            null;
+    }
+
+
+    if (
+        terrorMessageObserver
+    ) {
+
+        terrorMessageObserver.disconnect();
+
+        terrorMessageObserver =
+            null;
+    }
+}
+
+
+function startTerrorEmbers(
+    canvas
+) {
+
+    if (
+        window.matchMedia &&
+        window.matchMedia(
+            "(prefers-reduced-motion: reduce)"
+        ).matches
+    ) {
+
+        return;
+    }
+
+
+    const ctx =
+        canvas.getContext("2d");
+
+    if (
+        !ctx
+    ) {
+
+        return;
+    }
+
+
+    const palette = [
+        [255, 217, 138],
+        [255, 217, 138],
+        [255, 176, 92],
+        [255, 110, 120],
+        [210, 180, 255]
+    ];
+
+    let w =
+        0;
+
+    let h =
+        0;
+
+    let particles =
+        [];
+
+
+    function spawn(
+        initial
+    ) {
+
+        const life =
+            6 + Math.random() * 8;
+
+        return {
+            x: Math.random() * w,
+            y: h * (0.4 + Math.random() * 0.65),
+            r: 1.1 + Math.random() * 2.2,
+            vy: 14 + Math.random() * 30,
+            sway: 8 + Math.random() * 26,
+            swaySpeed: 0.4 + Math.random() * 1.1,
+            flickerSpeed: 2 + Math.random() * 5,
+            phase: Math.random() * 6.28,
+            life: life,
+            age: initial ? Math.random() * life : 0,
+            alpha: 0.55 + Math.random() * 0.45,
+            glow: Math.random() < 0.2,
+            c: palette[Math.floor(Math.random() * palette.length)]
+        };
+    }
+
+
+    function resize() {
+
+        const rect =
+            canvas.getBoundingClientRect();
+
+        const dpr =
+            Math.min(
+                window.devicePixelRatio || 1,
+                2
+            );
+
+        w =
+            rect.width;
+
+        h =
+            rect.height;
+
+        canvas.width =
+            Math.max(1, Math.round(w * dpr));
+
+        canvas.height =
+            Math.max(1, Math.round(h * dpr));
+
+        ctx.setTransform(
+            dpr,
+            0,
+            0,
+            dpr,
+            0,
+            0
+        );
+
+        const count =
+            Math.max(
+                28,
+                Math.min(
+                    120,
+                    Math.round(w * h / 6500)
+                )
+            );
+
+        particles =
+            Array.from(
+                { length: count },
+                () => spawn(true)
+            );
+    }
+
+
+    resize();
+
+
+    if (
+        window.ResizeObserver
+    ) {
+
+        terrorResizeObserver =
+            new ResizeObserver(
+                resize
+            );
+
+        terrorResizeObserver.observe(
+            canvas
+        );
+    }
+
+
+    let last =
+        performance.now();
+
+
+    function frame(
+        now
+    ) {
+
+        if (
+            !canvas.isConnected
+        ) {
+
+            terrorEmberFrame =
+                0;
+
+            return;
+        }
+
+
+        terrorEmberFrame =
+            requestAnimationFrame(
+                frame
+            );
+
+
+        if (
+            !leaderboardScreen.classList.contains("active")
+        ) {
+
+            last =
+                now;
+
+            return;
+        }
+
+
+        const dt =
+            Math.min(
+                0.05,
+                (now - last) / 1000
+            );
+
+        last =
+            now;
+
+
+        ctx.clearRect(
+            0,
+            0,
+            w,
+            h
+        );
+
+        ctx.globalCompositeOperation =
+            "lighter";
+
+
+        for (
+            let i = 0;
+            i < particles.length;
+            i++
+        ) {
+
+            const p =
+                particles[i];
+
+            p.age +=
+                dt;
+
+            if (
+                p.age >= p.life
+            ) {
+
+                particles[i] =
+                    spawn(false);
+
+                continue;
+            }
+
+
+            p.y -=
+                p.vy * dt;
+
+
+            const t =
+                p.age / p.life;
+
+            const x =
+                p.x +
+                Math.sin(
+                    p.phase + p.age * p.swaySpeed
+                ) * p.sway;
+
+            const fade =
+                Math.sin(
+                    Math.PI * t
+                );
+
+            const flicker =
+                0.65 +
+                0.35 * Math.sin(
+                    p.age * p.flickerSpeed + p.phase
+                );
+
+            const alpha =
+                p.alpha * fade * flicker *
+                (p.glow ? 0.55 : 1);
+
+            const radius =
+                p.r * (p.glow ? 7 : 3.2);
+
+
+            const g =
+                ctx.createRadialGradient(
+                    x,
+                    p.y,
+                    0,
+                    x,
+                    p.y,
+                    radius
+                );
+
+            g.addColorStop(
+                0,
+                `rgba(${p.c[0]},${p.c[1]},${p.c[2]},${alpha})`
+            );
+
+            g.addColorStop(
+                1,
+                `rgba(${p.c[0]},${p.c[1]},${p.c[2]},0)`
+            );
+
+
+            ctx.fillStyle =
+                g;
+
+            ctx.beginPath();
+
+            ctx.arc(
+                x,
+                p.y,
+                radius,
+                0,
+                6.2832
+            );
+
+            ctx.fill();
+        }
+    }
+
+
+    terrorEmberFrame =
+        requestAnimationFrame(
+            frame
+        );
+}
+
+
+function renderTerrorBoard(
+    boss
+) {
+
+    leaderboardContent.innerHTML = `
+
+        <div
+            class="terror-board"
+            style="${bossThemeStyle(boss)}"
+        >
+
+            <div class="terror-bar">
+
+                <button
+                    class="boss-all-btn"
+                    type="button"
+                    data-action="boss-all"
+                >
+                    ◂ ALL BOSSES
+                </button>
+
+            </div>
+
+
+            <div class="terror-hero">
+
+                <img
+                    class="terror-hero-img"
+                    src="${escapeHTML(boss.hero || boss.image)}"
+                    alt="${escapeHTML(boss.name)}"
+                    draggable="false"
+                >
+
+                <div class="terror-fog terror-fog--a"></div>
+
+                <div class="terror-fog terror-fog--b"></div>
+
+                <canvas class="terror-embers"></canvas>
+
+                <div class="terror-vignette"></div>
+
+            </div>
+
+
+            <div class="terror-message">
+
+                <div class="terror-ornament"></div>
+
+                <div
+                    class="terror-line terror-line--main glitch"
+                    data-text="...Unbeatable demon..."
+                >
+                    ...Unbeatable demon...
+                </div>
+
+                <div
+                    class="terror-line terror-line--sub glitch"
+                    data-text="Do not touch it"
+                >
+                    Do not touch it
+                </div>
+
+                <div class="terror-ornament"></div>
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    leaderboardPanel.scrollTop =
+        0;
+
+
+    const canvas =
+        leaderboardContent.querySelector(
+            ".terror-embers"
+        );
+
+    if (
+        canvas
+    ) {
+
+        startTerrorEmbers(
+            canvas
+        );
+    }
+
+
+    const message =
+        leaderboardContent.querySelector(
+            ".terror-message"
+        );
+
+    if (
+        message
+    ) {
+
+        if (
+            "IntersectionObserver" in window
+        ) {
+
+            terrorMessageObserver =
+                new IntersectionObserver(
+                    (entries) => {
+
+                        entries.forEach(
+                            (entry) => {
+
+                                entry.target.classList.toggle(
+                                    "is-visible",
+                                    entry.isIntersecting
+                                );
+                            }
+                        );
+                    },
+                    {
+                        root: leaderboardPanel,
+                        threshold: 0.3
+                    }
+                );
+
+            terrorMessageObserver.observe(
+                message
+            );
+
+        } else {
+
+            message.classList.add(
+                "is-visible"
+            );
+        }
+    }
 }
 
 
