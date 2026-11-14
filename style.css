@@ -883,7 +883,7 @@ body.night-mode
     display: grid;
 
     grid-template-columns:
-        repeat(auto-fill, minmax(190px, 1fr));
+        repeat(3, 1fr);
 
     gap: 18px;
 }
@@ -894,7 +894,7 @@ body.night-mode
 
     isolation: isolate;
 
-    height: 236px;
+    aspect-ratio: 16 / 10;
 
     padding: 0;
 
@@ -1029,10 +1029,10 @@ body.night-mode
     z-index: 1;
 
     max-width:
-        calc(94% * var(--art-scale, 1));
+        calc(96% * var(--art-scale, 1));
 
     max-height:
-        calc(80% * var(--art-scale, 1));
+        calc(92% * var(--art-scale, 1));
 
     transform:
         translateX(-50%);
@@ -1068,7 +1068,7 @@ body.night-mode
     left: 0;
 
     width: 100%;
-    height: 64%;
+    height: 74%;
 
     max-width: none;
     max-height: none;
@@ -1166,7 +1166,7 @@ body.night-mode
 
     white-space: nowrap;
 
-    font-size: 15px;
+    font-size: 17px;
 
     font-weight: 600;
 
@@ -2260,7 +2260,7 @@ body.night-mode
     position: absolute;
 
     top:
-        calc(18px + env(safe-area-inset-top, 0px));
+        calc(12px + env(safe-area-inset-top, 0px));
 
     left:
         calc(18px + env(safe-area-inset-left, 0px));
@@ -3169,14 +3169,28 @@ body.night-mode
 
 
     .boss-card {
-        height: 205px;
+        aspect-ratio: 4 / 3;
+
+        border-radius: 12px;
     }
 
 
     .boss-card-name {
-        font-size: 12px;
+        font-size: 11px;
 
         letter-spacing: 2px;
+    }
+
+
+    .boss-card-status {
+        font-size: 7px;
+
+        letter-spacing: 2px;
+    }
+
+
+    .boss-card-info {
+        padding: 0 9px 8px;
     }
 
 
@@ -3264,13 +3278,28 @@ body.night-mode
     }
 
 
-    .leaderboard-container {
-        width: 94vw;
+    /*
+        เว้นที่ด้านบนให้ปุ่ม BACK ไม่ทับกรอบ
+        และใช้ dvh กันปัญหาแถบเบราว์เซอร์บนมือถือ
+    */
 
-        height: 88vh;
+    .leaderboard-screen {
+        padding:
+            62px 8px 12px;
+    }
+
+
+    .leaderboard-container {
+        width: 100%;
+
+        height:
+            calc(100vh - 76px);
+
+        height:
+            calc(100dvh - 76px);
 
         padding:
-            24px 14px 30px;
+            24px 12px 30px;
     }
 
 
@@ -3287,9 +3316,13 @@ body.night-mode
 
 
     .club-panel {
-        width: 94vw;
+        width: 100%;
 
-        height: 88vh;
+        height:
+            calc(100vh - 76px);
+
+        height:
+            calc(100dvh - 76px);
 
         padding:
             30px 14px 24px;

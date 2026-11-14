@@ -1403,7 +1403,6 @@ const bosses = [
         name: "HOD",
         image: "bosses/hod.webp",
         crop: false,
-        scale: 1.2,
         color: "#ffa53f",
         data: ga35Data
     },
@@ -1474,7 +1473,6 @@ const bosses = [
         name: "GEBURAH",
         image: "bosses/geburah.webp",
         crop: false,
-        scale: 1.4,
         color: "#ff7043",
         data: null
     },
@@ -1525,7 +1523,6 @@ const bosses = [
         name: "YESOD",
         image: "bosses/yesod.webp",
         crop: false,
-        scale: 1.35,
         color: "#ff9f6b",
         data: null
     }
