@@ -81,9 +81,6 @@ const leaderboardContent =
 const leaderboardPanel =
     leaderboardScreen.querySelector(".leaderboard-container");
 
-const bossBloom =
-    document.getElementById("bossBloom");
-
 const medalsContent =
     document.getElementById("medalsContent");
 
@@ -1924,7 +1921,7 @@ function createBossCard(
             type="button"
             data-boss="${escapeHTML(boss.id)}"
             aria-label="${escapeHTML(boss.name)}"
-            style="${bossThemeStyle(boss)} --i: ${index};"
+            style="${bossThemeStyle(boss)} --i: ${index}; --art-scale: ${boss.scale || 1};"
         >
 
             <span class="boss-card-glow"></span>
@@ -1932,10 +1929,6 @@ function createBossCard(
             ${bossArtHTML(boss)}
 
             <span class="boss-card-shade"></span>
-
-            <span class="boss-card-code">
-                ${boss.code ? escapeHTML(boss.code) : "RAID"}
-            </span>
 
             <span class="boss-card-info">
 
@@ -2162,9 +2155,9 @@ function renderBossBoard(
 
             <div class="boss-banner-text">
 
-                <div class="boss-banner-code">
-                    ${boss.code ? escapeHTML(boss.code) : "RAID"}
-                </div>
+                ${boss.code
+                    ? `<div class="boss-banner-code">${escapeHTML(boss.code)}</div>`
+                    : ""}
 
                 <div class="boss-banner-name">
                     ${escapeHTML(boss.name)}
@@ -2204,12 +2197,10 @@ function renderBossBoard(
 
 
 /* =====================================================
-   SELECT BOSS — TRANSITION + BLOOM LIGHT
+   SELECT BOSS
 
-   1) แสง bloom สีของบอสระเบิดออกจากตำแหน่งการ์ดที่กด
-   2) การ์ดที่เลือกเด้ง/เรืองแสง การ์ดอื่นจางและเบลอ
-   3) ตอนแสงสว่างสุด สลับเนื้อหาเป็นตาราง Leaderboard
-   4) แสงค่อยๆ จางลง ตารางเผยขึ้นมา
+   กดการ์ดบอส -> เนื้อหาจางลงสั้นๆ แล้วสลับเป็นตาราง
+   (ไม่มีเอฟเฟกต์แสงหรือแอนิเมชันเด่นๆ)
 ===================================================== */
 
 function selectBoss(
@@ -2241,43 +2232,8 @@ function selectBoss(
         true;
 
 
-    const rect =
-        card.getBoundingClientRect();
-
-
-    bossBloom.style.setProperty(
-        "--boss-rgb",
-        hexToRgb(boss.color)
-    );
-
-    bossBloom.style.setProperty(
-        "--bx",
-        `${rect.left + rect.width / 2}px`
-    );
-
-    bossBloom.style.setProperty(
-        "--by",
-        `${rect.top + rect.height / 2}px`
-    );
-
-
-    bossBloom.classList.remove(
-        "play"
-    );
-
-    void bossBloom.offsetWidth;
-
-    bossBloom.classList.add(
-        "play"
-    );
-
-
-    card.classList.add(
-        "is-chosen"
-    );
-
     leaderboardContent.classList.add(
-        "is-selecting"
+        "is-switching"
     );
 
 
@@ -2289,34 +2245,14 @@ function selectBoss(
             );
 
             leaderboardContent.classList.remove(
-                "is-selecting"
-            );
-
-            leaderboardContent.classList.add(
-                "board-enter"
-            );
-
-        },
-        480
-    );
-
-
-    setTimeout(
-        () => {
-
-            bossBloom.classList.remove(
-                "play"
-            );
-
-            leaderboardContent.classList.remove(
-                "board-enter"
+                "is-switching"
             );
 
             isBossTransitioning =
                 false;
 
         },
-        1250
+        180
     );
 }
 

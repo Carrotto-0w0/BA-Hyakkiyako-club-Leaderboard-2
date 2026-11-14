@@ -13,9 +13,11 @@
       (บอสที่มีข้อมูลจะถูกจัดไว้ด้านบนเสมอ)
 
    field ของแต่ละบอส:
-   - code  : รหัสเรด เช่น "GA35" (ว่าง "" ได้ถ้ายังไม่ทราบ)
+   - code  : รหัสเรด เช่น "GA35" โชว์เฉพาะหลังกดเข้าไปในหน้าตาราง
+             (ว่าง "" ได้ถ้ายังไม่มีหรือไม่ต้องการโชว์)
    - image : รูปในโฟลเดอร์ bosses/ (ว่าง "" ได้ จะโชว์ตัวอักษรแทน)
    - crop  : true = รูปแบบครึ่งตัว/แนวกว้าง ให้ครอปเต็มการ์ด
+   - scale : (ไม่ใส่ก็ได้) ขยายรูปในการ์ดให้ใหญ่ขึ้น เช่น 1.2 = ใหญ่ขึ้น 20%
    - color : สีธีมของบอส ใช้กับแสง bloom และกรอบหน้า leaderboard
 ===================================================== */
 
@@ -1401,6 +1403,7 @@ const bosses = [
         name: "HOD",
         image: "bosses/hod.webp",
         crop: false,
+        scale: 1.2,
         color: "#ffa53f",
         data: ga35Data
     },
@@ -1437,7 +1440,7 @@ const bosses = [
 
     {
         id: "kaiten",
-        code: "TA85",
+        code: "",
         name: "KAITEN",
         image: "bosses/kaiten.webp",
         crop: true,
@@ -1471,6 +1474,7 @@ const bosses = [
         name: "GEBURAH",
         image: "bosses/geburah.webp",
         crop: false,
+        scale: 1.4,
         color: "#ff7043",
         data: null
     },
@@ -1521,6 +1525,7 @@ const bosses = [
         name: "YESOD",
         image: "bosses/yesod.webp",
         crop: false,
+        scale: 1.35,
         color: "#ff9f6b",
         data: null
     }

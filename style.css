@@ -1028,8 +1028,11 @@ body.night-mode
 
     z-index: 1;
 
-    max-width: 94%;
-    max-height: 80%;
+    max-width:
+        calc(94% * var(--art-scale, 1));
+
+    max-height:
+        calc(80% * var(--art-scale, 1));
 
     transform:
         translateX(-50%);
@@ -1135,35 +1138,6 @@ body.night-mode
 
 /* ---------- TEXT ---------- */
 
-.boss-card-code {
-    position: absolute;
-
-    top: 10px;
-    left: 10px;
-
-    z-index: 3;
-
-    padding: 3px 10px;
-
-    border-radius: 999px;
-
-    border:
-        1px solid
-        rgba(var(--boss-rgb), 0.65);
-
-    background:
-        rgba(var(--boss-rgb), 0.18);
-
-    font-size: 10px;
-
-    letter-spacing: 3px;
-
-    text-shadow:
-        0 0 8px
-        rgba(var(--boss-rgb), 0.9);
-}
-
-
 .boss-card-info {
     position: absolute;
 
@@ -1250,238 +1224,6 @@ body.night-mode
 }
 
 
-/* ---------- ตอนกดเลือก ---------- */
-
-.leaderboard-content.is-selecting
-.boss-card:not(.is-chosen) {
-    opacity: 0.14;
-
-    filter:
-        blur(3px)
-        saturate(0.4);
-
-    transform:
-        scale(0.94);
-
-    pointer-events: none;
-}
-
-
-.boss-card.is-chosen {
-    z-index: 5;
-
-    pointer-events: none;
-
-    transform:
-        scale(1.1);
-
-    border-color:
-        rgba(var(--boss-rgb), 1);
-
-    box-shadow:
-        0 0 0 2px
-        rgba(var(--boss-rgb), 0.6),
-
-        0 0 40px
-        rgba(var(--boss-rgb), 0.75),
-
-        0 0 90px
-        rgba(var(--boss-rgb), 0.45);
-
-    animation:
-        bossChosenFlash 0.55s
-        ease both;
-}
-
-
-@keyframes bossChosenFlash {
-
-    0% {
-        filter: brightness(1);
-    }
-
-    40% {
-        filter:
-            brightness(1.8)
-            saturate(1.2);
-    }
-
-    100% {
-        filter: brightness(1.2);
-    }
-}
-
-
-/* =====================================================
-   BOSS BLOOM — แสงเรืองระเบิดตอนกดเลือกบอส
-===================================================== */
-
-.boss-bloom {
-    position: absolute;
-
-    inset: 0;
-
-    z-index: 25;
-
-    overflow: hidden;
-
-    pointer-events: none;
-
-    opacity: 0;
-
-    mix-blend-mode: screen;
-}
-
-
-.boss-bloom.play {
-    opacity: 1;
-
-    animation:
-        bossBloomWash 1.15s
-        ease forwards;
-}
-
-
-.boss-bloom::before,
-.boss-bloom::after {
-    content: "";
-
-    position: absolute;
-
-    left: var(--bx, 50%);
-    top: var(--by, 50%);
-
-    border-radius: 50%;
-
-    opacity: 0;
-
-    transform: scale(0);
-}
-
-
-.boss-bloom::before {
-    width: 140vmax;
-    height: 140vmax;
-
-    margin:
-        -70vmax 0 0 -70vmax;
-
-    background:
-        radial-gradient(
-            circle,
-            rgba(255,255,255,0.9) 0%,
-            rgba(var(--boss-rgb), 0.9) 9%,
-            rgba(var(--boss-rgb), 0.46) 22%,
-            rgba(var(--boss-rgb), 0.12) 42%,
-            transparent 62%
-        );
-}
-
-
-.boss-bloom::after {
-    width: 160px;
-    height: 160px;
-
-    margin:
-        -80px 0 0 -80px;
-
-    border:
-        2px solid
-        rgba(var(--boss-rgb), 0.95);
-
-    box-shadow:
-        0 0 30px
-        rgba(var(--boss-rgb), 0.85),
-
-        inset 0 0 30px
-        rgba(var(--boss-rgb), 0.6);
-}
-
-
-.boss-bloom.play::before {
-    animation:
-        bossBloomBurst 1.15s
-        cubic-bezier(0.2, 0.7, 0.2, 1)
-        forwards;
-}
-
-
-.boss-bloom.play::after {
-    animation:
-        bossBloomRing 0.95s
-        cubic-bezier(0.15, 0.7, 0.2, 1)
-        forwards;
-}
-
-
-@keyframes bossBloomWash {
-
-    0% {
-        background:
-            rgba(var(--boss-rgb), 0);
-    }
-
-    38% {
-        background:
-            rgba(var(--boss-rgb), 0.5);
-    }
-
-    55% {
-        background:
-            rgba(var(--boss-rgb), 0.42);
-    }
-
-    100% {
-        background:
-            rgba(var(--boss-rgb), 0);
-    }
-}
-
-
-@keyframes bossBloomBurst {
-
-    0% {
-        opacity: 0;
-
-        transform: scale(0);
-    }
-
-    22% {
-        opacity: 1;
-
-        transform: scale(0.55);
-    }
-
-    42% {
-        opacity: 1;
-
-        transform: scale(0.9);
-    }
-
-    100% {
-        opacity: 0;
-
-        transform: scale(1.35);
-    }
-}
-
-
-@keyframes bossBloomRing {
-
-    0% {
-        opacity: 1;
-
-        transform: scale(0.2);
-    }
-
-    100% {
-        opacity: 0;
-
-        transform: scale(11);
-    }
-}
-
-
 /* =====================================================
    BOSS BOARD — ส่วนหัวของตารางอันดับ (ธีมสีบอส)
 ===================================================== */
@@ -1517,25 +1259,6 @@ body.night-mode
             rgba(var(--boss-rgb), 0.95),
             transparent
         );
-}
-
-
-.leaderboard-content.board-enter {
-    animation:
-        bossBoardIn 0.75s
-        ease backwards;
-}
-
-
-@keyframes bossBoardIn {
-
-    from {
-        opacity: 0;
-
-        filter: blur(10px);
-
-        transform: scale(1.03);
-    }
 }
 
 
@@ -1660,23 +1383,6 @@ body.night-mode
     transform: none;
 
     object-position: center bottom;
-
-    animation:
-        bossArtIn 0.9s
-        cubic-bezier(0.2, 0.8, 0.2, 1)
-        backwards;
-}
-
-
-@keyframes bossArtIn {
-
-    from {
-        opacity: 0;
-
-        filter: blur(10px);
-
-        transform: scale(1.18);
-    }
 }
 
 
@@ -1791,16 +1497,8 @@ body.night-mode
 @media (prefers-reduced-motion: reduce) {
 
     .boss-card,
-    .boss-banner,
-    .boss-banner-art .boss-art,
-    .leaderboard-content.board-enter {
+    .boss-banner {
         animation: none;
-    }
-
-    .boss-bloom.play,
-    .boss-bloom.play::before,
-    .boss-bloom.play::after {
-        animation-duration: 0.01s;
     }
 }
 
