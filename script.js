@@ -90,8 +90,8 @@ const galleryButton =
 const galleryOverlay =
     document.getElementById("galleryOverlay");
 
-const galleryVideo =
-    document.getElementById("galleryVideo");
+const galleryImage =
+    document.getElementById("galleryImage");
 
 const galleryClose =
     document.getElementById("galleryClose");
@@ -1163,6 +1163,10 @@ function openMedals() {
 
     renderClub();
 
+    loadGalleryBlob().catch(
+        () => {}
+    );
+
     showScreen(
         medalsScreen
     );
@@ -1302,15 +1306,131 @@ medalsBackButton.addEventListener(
 
 
 /* =====================================================
-   HALL OF FAME & GALLERY (placeholder)
+   HALL OF FAME & GALLERY (placeholder GIF)
 
-   - กดปุ่มแล้วโชว์วิดีโอและเล่นทันที (ไม่ loop)
-   - โหลดไฟล์วิดีโอตอนกดครั้งแรกเท่านั้น (ประหยัดเน็ต)
-   - เปลี่ยนไฟล์วิดีโอได้ที่ GALLERY_VIDEO_SRC
+   - กดปุ่มแล้วโชว์ GIF และเล่นทันที
+   - GIF เล่นรอบเดียวแล้วค้างที่เฟรมสุดท้าย
+     (ไฟล์ media/gallery-placeholder.gif ถูกตั้งค่าไม่ให้ loop)
+   - เปิดใหม่ / คลิกที่ภาพ = เล่นใหม่จากเฟรมแรก
+   - เปลี่ยนไฟล์ภาพได้ที่ GALLERY_IMAGE_SRC
 ===================================================== */
 
-const GALLERY_VIDEO_SRC =
-    "./media/gallery-placeholder.mp4";
+const GALLERY_IMAGE_SRC =
+    "./media/gallery-placeholder.gif";
+
+let galleryBlob =
+    null;
+
+let galleryBlobLoading =
+    null;
+
+let galleryObjectUrl =
+    "";
+
+
+/*
+    เก็บไฟล์ GIF ไว้ในหน่วยความจำ (โหลดล่วงหน้าตอนเข้าหน้า Club Members)
+    เพื่อให้กดแล้วโชว์ได้ทันที และสร้าง URL ใหม่ทุกครั้งที่เล่น
+    ทำให้ GIF เริ่มจากเฟรมแรกใหม่เสมอ (ทุกเบราว์เซอร์)
+*/
+
+function loadGalleryBlob() {
+
+    if (
+        galleryBlob
+    ) {
+
+        return Promise.resolve(
+            galleryBlob
+        );
+    }
+
+
+    if (
+        !galleryBlobLoading
+    ) {
+
+        galleryBlobLoading =
+            fetch(GALLERY_IMAGE_SRC)
+                .then(
+                    (response) => {
+
+                        if (
+                            !response.ok
+                        ) {
+
+                            throw new Error(
+                                "gallery image not found"
+                            );
+                        }
+
+                        return response.blob();
+                    }
+                )
+                .then(
+                    (blob) => {
+
+                        galleryBlob =
+                            blob;
+
+                        return blob;
+                    }
+                )
+                .catch(
+                    (error) => {
+
+                        galleryBlobLoading =
+                            null;
+
+                        throw error;
+                    }
+                );
+    }
+
+
+    return galleryBlobLoading;
+}
+
+
+function playGalleryImage() {
+
+    if (
+        galleryBlob
+    ) {
+
+        if (
+            galleryObjectUrl
+        ) {
+
+            URL.revokeObjectURL(
+                galleryObjectUrl
+            );
+        }
+
+        galleryObjectUrl =
+            URL.createObjectURL(
+                galleryBlob
+            );
+
+        galleryImage.src =
+            galleryObjectUrl;
+
+        return;
+    }
+
+
+    /*
+        ยังโหลดล่วงหน้าไม่เสร็จ: โชว์จากไฟล์ตรงๆ ไปก่อน
+        แล้วเก็บไว้ใช้ในรอบถัดไป
+    */
+
+    galleryImage.src =
+        GALLERY_IMAGE_SRC;
+
+    loadGalleryBlob().catch(
+        () => {}
+    );
+}
 
 
 function isGalleryOpen() {
@@ -1333,50 +1453,7 @@ function openGallery() {
     );
 
 
-    if (
-        !galleryVideo.getAttribute("src")
-    ) {
-
-        galleryVideo.src =
-            GALLERY_VIDEO_SRC;
-    }
-
-
-    galleryVideo.loop =
-        false;
-
-    galleryVideo.muted =
-        false;
-
-    galleryVideo.currentTime =
-        0;
-
-
-    const playPromise =
-        galleryVideo.play();
-
-
-    if (
-        playPromise !== undefined
-    ) {
-
-        playPromise.catch(
-            () => {
-
-                /*
-                    เบราว์เซอร์บางตัวไม่ยอมเล่นพร้อมเสียง
-                    -> ลองเล่นแบบปิดเสียง (กดเปิดเสียงเองได้)
-                */
-
-                galleryVideo.muted =
-                    true;
-
-                galleryVideo.play().catch(
-                    () => {}
-                );
-            }
-        );
-    }
+    playGalleryImage();
 }
 
 
@@ -1400,10 +1477,21 @@ function closeGallery() {
     );
 
 
-    galleryVideo.pause();
+    setTimeout(
+        () => {
 
-    galleryVideo.currentTime =
-        0;
+            if (
+                !isGalleryOpen()
+            ) {
+
+                galleryImage.removeAttribute(
+                    "src"
+                );
+            }
+
+        },
+        300
+    );
 }
 
 
@@ -1431,6 +1519,11 @@ galleryButton.addEventListener(
 galleryClose.addEventListener(
     "click",
     closeGallery
+);
+
+galleryImage.addEventListener(
+    "click",
+    playGalleryImage
 );
 
 document.addEventListener(

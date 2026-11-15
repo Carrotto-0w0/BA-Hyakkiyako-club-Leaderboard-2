@@ -3632,7 +3632,7 @@ body.night-mode
 
 
 /* =====================================================
-   HALL OF FAME & GALLERY — ปุ่ม + หน้าโชว์วิดีโอ
+   HALL OF FAME & GALLERY — ปุ่ม + หน้าโชว์ภาพ GIF
 ===================================================== */
 
 .club-gallery-btn {
@@ -3765,7 +3765,7 @@ body.night-mode
 }
 
 
-.gallery-video-wrap {
+.gallery-frame {
     width:
         min(1000px, 94vw);
 
@@ -3793,7 +3793,7 @@ body.night-mode
 }
 
 
-.gallery-video {
+.gallery-image {
     display: block;
 
     width: 100%;
@@ -3802,6 +3802,10 @@ body.night-mode
     object-fit: contain;
 
     background: #000;
+
+    cursor: pointer;
+
+    user-select: none;
 }
 
 

@@ -448,9 +448,9 @@
 
 
     <!-- =====================================================
-         HALL OF FAME & GALLERY (placeholder วิดีโอ)
+         HALL OF FAME & GALLERY (placeholder ภาพ GIF)
 
-         วิดีโอจะถูกโหลดและเล่นทันทีที่กดปุ่ม (ไม่ loop)
+         GIF จะเล่นทันทีที่กดปุ่ม เล่นรอบเดียวแล้วค้างเฟรมสุดท้าย
          เมื่อมีรางวัล/ภาพจริงแล้ว ให้เปลี่ยนเนื้อหาในกล่องนี้
     ===================================================== -->
 
@@ -473,15 +473,18 @@
             HALL OF FAME &amp; GALLERY
         </div>
 
-        <div class="gallery-video-wrap">
+        <div
+            class="gallery-frame"
+            role="img"
+            aria-label="Hall of Fame and Gallery placeholder"
+        >
 
-            <video
-                id="galleryVideo"
-                class="gallery-video"
-                playsinline
-                controls
-                preload="none"
-            ></video>
+            <img
+                id="galleryImage"
+                class="gallery-image"
+                alt=""
+                draggable="false"
+            >
 
         </div>
 
