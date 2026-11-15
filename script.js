@@ -154,6 +154,99 @@ const burstParticles = [];
 
 
 /* =====================================================
+   PETAL SPRITE
+
+   วาดกลีบซากุระพร้อมแสงเรืองครั้งเดียวไว้เป็นรูปสำเร็จ
+   แล้วใช้ drawImage ทุกเฟรมแทน
+   (shadowBlur ต่อกลีบทุกเฟรมกิน CPU มาก โดยเฉพาะมือถือ)
+===================================================== */
+
+const PETAL_BASE_SIZE =
+    6.5;
+
+const PETAL_SPRITE_SIZE =
+    64;
+
+
+const petalSprite =
+    document.createElement("canvas");
+
+petalSprite.width =
+    PETAL_SPRITE_SIZE;
+
+petalSprite.height =
+    PETAL_SPRITE_SIZE;
+
+
+(function buildPetalSprite() {
+
+    const sctx =
+        petalSprite.getContext("2d");
+
+    /*
+        ขนาดกลีบในสไปรต์ = 2 เท่าของขนาดกลางเดิม
+        (ละเอียดกว่า 2x แล้วย่อลงตอนวาด)
+    */
+
+    const s =
+        PETAL_BASE_SIZE * 2;
+
+    sctx.translate(
+        PETAL_SPRITE_SIZE / 2,
+        PETAL_SPRITE_SIZE / 2
+    );
+
+    sctx.fillStyle =
+        "#ff9dcc";
+
+    sctx.shadowBlur =
+        12;
+
+    sctx.shadowColor =
+        "#ff69b4";
+
+    sctx.beginPath();
+
+    sctx.moveTo(
+        0,
+        -s
+    );
+
+    sctx.bezierCurveTo(
+        s * 0.75,
+        -s * 0.8,
+        s * 0.95,
+        s * 0.15,
+        s * 0.35,
+        s * 0.75
+    );
+
+    sctx.bezierCurveTo(
+        0,
+        s * 1.05,
+        -s * 0.65,
+        s * 0.75,
+        -s * 0.45,
+        0
+    );
+
+    sctx.bezierCurveTo(
+        -s * 0.55,
+        -s * 0.55,
+        -s * 0.25,
+        -s * 0.9,
+        0,
+        -s
+    );
+
+    sctx.closePath();
+
+    sctx.fill();
+
+})();
+
+
+/* =====================================================
    FALLING SAKURA PETAL
    กลีบเดี่ยวเท่านั้น
 ===================================================== */
@@ -230,93 +323,34 @@ class FallingPetal {
 
     draw() {
 
-        ctx.save();
+        const scale =
+            (this.size / PETAL_BASE_SIZE) * 0.5;
 
+        const half =
+            PETAL_SPRITE_SIZE * scale / 2;
+
+
+        ctx.save();
 
         ctx.translate(
             this.x,
             this.y
         );
 
-
         ctx.rotate(
             this.rotation
         );
 
-
         ctx.globalAlpha =
             this.alpha;
 
-
-        ctx.fillStyle =
-            "#ff9dcc";
-
-
-        ctx.shadowBlur =
-            6;
-
-
-        ctx.shadowColor =
-            "#ff69b4";
-
-
-        const s =
-            this.size;
-
-
-        /*
-            Sakura petal เดี่ยว
-        */
-
-        ctx.beginPath();
-
-
-        ctx.moveTo(
-            0,
-            -s
+        ctx.drawImage(
+            petalSprite,
+            -half,
+            -half,
+            half * 2,
+            half * 2
         );
-
-
-        ctx.bezierCurveTo(
-            s * 0.75,
-            -s * 0.8,
-
-            s * 0.95,
-            s * 0.15,
-
-            s * 0.35,
-            s * 0.75
-        );
-
-
-        ctx.bezierCurveTo(
-            0,
-            s * 1.05,
-
-            -s * 0.65,
-            s * 0.75,
-
-            -s * 0.45,
-            0
-        );
-
-
-        ctx.bezierCurveTo(
-            -s * 0.55,
-            -s * 0.55,
-
-            -s * 0.25,
-            -s * 0.9,
-
-            0,
-            -s
-        );
-
-
-        ctx.closePath();
-
-        ctx.fill();
-
 
         ctx.restore();
     }
@@ -1642,6 +1676,14 @@ function createHeroCard(
     }
 
 
+    const ringHTML =
+        (player.rank === 1 ||
+         player.rank === 2 ||
+         player.rank === 3)
+            ? `<span class="hero-ring"></span>`
+            : "";
+
+
     const rankClass =
         (player.rank === 1 ||
          player.rank === 2 ||
@@ -1664,6 +1706,8 @@ function createHeroCard(
             class="hero-card ${rankClass} revealing"
             style="--reveal-delay: ${revealDelay}ms"
         >
+
+            ${ringHTML}
 
             ${crown}
 
@@ -2653,6 +2697,62 @@ function startTerrorEmbers(
         [210, 180, 255]
     ];
 
+    /*
+        ประกายแต่ละสี วาดเป็นรูปสำเร็จไว้ก่อน (sprite)
+        แล้ว drawImage ทุกเฟรม เบากว่าสร้าง gradient ต่ออนุภาคมาก
+    */
+
+    const sprites =
+        palette.map(
+            (c) => {
+
+                const sc =
+                    document.createElement("canvas");
+
+                sc.width =
+                    64;
+
+                sc.height =
+                    64;
+
+                const sctx =
+                    sc.getContext("2d");
+
+                const g =
+                    sctx.createRadialGradient(
+                        32,
+                        32,
+                        0,
+                        32,
+                        32,
+                        32
+                    );
+
+                g.addColorStop(
+                    0,
+                    `rgba(${c[0]},${c[1]},${c[2]},1)`
+                );
+
+                g.addColorStop(
+                    1,
+                    `rgba(${c[0]},${c[1]},${c[2]},0)`
+                );
+
+                sctx.fillStyle =
+                    g;
+
+                sctx.fillRect(
+                    0,
+                    0,
+                    64,
+                    64
+                );
+
+                return sc;
+            }
+        );
+
+
     let w =
         0;
 
@@ -2683,7 +2783,7 @@ function startTerrorEmbers(
             age: initial ? Math.random() * life : 0,
             alpha: 0.55 + Math.random() * 0.45,
             glow: Math.random() < 0.2,
-            c: palette[Math.floor(Math.random() * palette.length)]
+            sprite: sprites[Math.floor(Math.random() * sprites.length)]
         };
     }
 
@@ -2724,8 +2824,8 @@ function startTerrorEmbers(
             Math.max(
                 28,
                 Math.min(
-                    120,
-                    Math.round(w * h / 6500)
+                    70,
+                    Math.round(w * h / 9000)
                 )
             );
 
@@ -2867,41 +2967,16 @@ function startTerrorEmbers(
                 p.r * (p.glow ? 7 : 3.2);
 
 
-            const g =
-                ctx.createRadialGradient(
-                    x,
-                    p.y,
-                    0,
-                    x,
-                    p.y,
-                    radius
-                );
+            ctx.globalAlpha =
+                Math.min(1, alpha);
 
-            g.addColorStop(
-                0,
-                `rgba(${p.c[0]},${p.c[1]},${p.c[2]},${alpha})`
+            ctx.drawImage(
+                p.sprite,
+                x - radius,
+                p.y - radius,
+                radius * 2,
+                radius * 2
             );
-
-            g.addColorStop(
-                1,
-                `rgba(${p.c[0]},${p.c[1]},${p.c[2]},0)`
-            );
-
-
-            ctx.fillStyle =
-                g;
-
-            ctx.beginPath();
-
-            ctx.arc(
-                x,
-                p.y,
-                radius,
-                0,
-                6.2832
-            );
-
-            ctx.fill();
         }
     }
 
@@ -3439,6 +3514,10 @@ izunaArea.addEventListener(
    PET TIMER
 ===================================================== */
 
+let lastPetSecondsText =
+    "";
+
+
 function updatePetTimer() {
 
     let current =
@@ -3460,8 +3539,19 @@ function updatePetTimer() {
         current / 1000;
 
 
-    petSeconds.textContent =
+    const secondsText =
         seconds.toFixed(1);
+
+    if (
+        secondsText !== lastPetSecondsText
+    ) {
+
+        lastPetSecondsText =
+            secondsText;
+
+        petSeconds.textContent =
+            secondsText;
+    }
 
 
     requestAnimationFrame(
