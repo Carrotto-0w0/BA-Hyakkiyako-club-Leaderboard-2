@@ -20,8 +20,8 @@
 
 const clubLeader = {
     name: "Nahima",
-    image: "members/Nahima1.png",
-    imageAlt: "members/Nahima2.png",
+    image: "members/Nahima1.webp",
+    imageAlt: "members/Nahima2.webp",
     info: "Our hardworking and extraordinary club leader — yet so adorable when teased."
 };
 
@@ -30,15 +30,15 @@ const clubManagers = [
 
     {
         name: "Carrot",
-        image: "members/Carrot1.png",
-        imageAlt: "members/Carrot2.png",
+        image: "members/Carrot1.webp",
+        imageAlt: "members/Carrot2.webp",
         info: "Supa-slacc manager, F2P, and admires Nahima a lot."
     },
 
     {
         name: "Serene",
-        image: "members/Serene1.png",
-        imageAlt: "members/Serene2.png",
+        image: "members/Serene1.webp",
+        imageAlt: "members/Serene2.webp",
         info: "Nahima's right-hand man, highly reliable raids consultant."
     }
 
@@ -49,252 +49,252 @@ const clubMembers = [
 
     {
         name: "Yayus",
-        image: "members/Yayus.png",
+        image: "members/Yayus.webp",
         imageAlt: "",
         info: "Mighty Raid Fighter."
     },
 
     {
         name: "Polygon",
-        image: "members/Polygon.png",
+        image: "members/Polygon.webp",
         imageAlt: "",
         info: "Raids consultant, strong Raid Fighter."
     },
 
     {
         name: "Velloz",
-        image: "members/Velloz.png",
+        image: "members/Velloz.webp",
         imageAlt: "",
         info: "Strong Raid Fighter."
     },
 
     {
         name: "Yura",
-        image: "members/Yura.png",
+        image: "members/Yura.webp",
         imageAlt: "",
         info: "Strong Raid Fighter."
     },
 
     {
         name: "Fui",
-        image: "members/Fui.png",
+        image: "members/Fui.webp",
         imageAlt: "",
         info: "Top streak Izuna dabber."
     },
 
     {
         name: "Relax",
-        image: "members/Relax.png",
+        image: "members/Relax.webp",
         imageAlt: "",
         info: "Raid Fighter."
     },
 
     {
         name: "Mthanh",
-        image: "members/Mthanh.png",
+        image: "members/Mthanh.webp",
         imageAlt: "",
         info: "Club Pianist."
     },
 
     {
         name: "雨息",
-        image: "members/雨息.png",
+        image: "members/雨息.webp",
         imageAlt: "",
         info: "Raid Fighter."
     },
 
     {
         name: "Demonarto",
-        image: "members/Demonnarto.png",
+        image: "members/Demonnarto.webp",
         imageAlt: "",
         info: "The elite and all mighty Raid Fighter of the club. Competitive hard carry, and owner of a barbershop who only knows the bald haircut. Can finish the raid blindfolded — only bad gacha can limit his unlimited power."
     },
 
     {
         name: "Vannesith",
-        image: "members/Vannesith1.png",
-        imageAlt: "members/Vannesith2.png",
+        image: "members/Vannesith1.webp",
+        imageAlt: "members/Vannesith2.webp",
         info: "Niche student? Goat ammi! Geburah? Nah!! Child? Im in!!!"
     },
 
     {
         name: "Foxsnow",
-        image: "members/Foxsnow.png",
+        image: "members/Foxsnow.webp",
         imageAlt: "",
         info: "Vannesith's art slave."
     },
 
     {
         name: "NW2M",
-        image: "members/NW2M.png",
+        image: "members/NW2M.webp",
         imageAlt: "",
         info: ""
     },
 
     {
         name: "Messi",
-        image: "members/Messi.png",
+        image: "members/Messi.webp",
         imageAlt: "",
         info: ""
     },
 
     {
         name: "Keen",
-        image: "members/Keen.png",
+        image: "members/Keen.webp",
         imageAlt: "",
         info: ""
     },
 
     {
         name: "Domtood",
-        image: "members/Domtood.png",
+        image: "members/Domtood.webp",
         imageAlt: "",
         info: ""
     },
 
     {
         name: "Geeao",
-        image: "members/Geeao.png",
+        image: "members/Geeao.webp",
         imageAlt: "",
         info: ""
     },
 
     {
         name: "Rui",
-        image: "members/Rui.png",
+        image: "members/Rui.webp",
         imageAlt: "",
         info: ""
     },
 
     {
         name: "Derain",
-        image: "members/Derain.png",
+        image: "members/Derain.webp",
         imageAlt: "",
         info: ""
     },
 
     {
         name: "Xyren",
-        image: "members/Xyren.png",
+        image: "members/Xyren.webp",
         imageAlt: "",
         info: ""
     },
 
     {
         name: "Helheim",
-        image: "members/Helheim.png",
+        image: "members/Helheim.webp",
         imageAlt: "",
         info: ""
     },
 
     {
         name: "SkyRish",
-        image: "members/SkyRish.png",
+        image: "members/SkyRish.webp",
         imageAlt: "",
         info: ""
     },
 
     {
         name: "Jakala",
-        image: "members/Jakala.png",
+        image: "members/Jakala.webp",
         imageAlt: "",
         info: ""
     },
 
     {
         name: "EmptyCup",
-        image: "members/EmptyCup.png",
+        image: "members/EmptyCup.webp",
         imageAlt: "",
         info: ""
     },
 
     {
         name: "Chainzer",
-        image: "members/Chainzer.png",
+        image: "members/Chainzer.webp",
         imageAlt: "",
         info: ""
     },
 
     {
         name: "Astra",
-        image: "members/Astra.png",
+        image: "members/Astra.webp",
         imageAlt: "",
         info: ""
     },
 
     {
         name: "DiPa",
-        image: "members/DiPa.png",
+        image: "members/DiPa.webp",
         imageAlt: "",
         info: ""
     },
 
     {
         name: "Nero",
-        image: "members/Nero.png",
+        image: "members/Nero.webp",
         imageAlt: "",
         info: ""
     },
 
     {
         name: "Nezunanda",
-        image: "members/Nezunanda.png",
+        image: "members/Nezunanda.webp",
         imageAlt: "",
         info: ""
     },
 
     {
         name: "UnclePom",
-        image: "members/UnclePom.png",
+        image: "members/UnclePom.webp",
         imageAlt: "",
         info: ""
     },
 
     {
         name: "Kondee",
-        image: "members/Kondee.png",
+        image: "members/Kondee.webp",
         imageAlt: "",
         info: ""
     },
 
     {
         name: "WhoTao",
-        image: "members/WhoTao.png",
+        image: "members/WhoTao.webp",
         imageAlt: "",
         info: ""
     },
 
     {
         name: "Fournier",
-        image: "members/Fournier.png",
+        image: "members/Fournier.webp",
         imageAlt: "",
         info: ""
     },
 
     {
         name: "Ayaya",
-        image: "members/Ayaya.png",
+        image: "members/Ayaya.webp",
         imageAlt: "",
         info: ""
     },
 
     {
         name: "Kargvee",
-        image: "members/Kargvee.png",
+        image: "members/Kargvee.webp",
         imageAlt: "",
         info: ""
     },
 
     {
         name: "JustCasual",
-        image: "members/JustCasual.png",
+        image: "members/JustCasual.webp",
         imageAlt: "",
         info: ""
     },
 
     {
         name: "DedeMiku",
-        image: "members/DedeMiku.png",
+        image: "members/DedeMiku.webp",
         imageAlt: "",
         info: ""
     }
